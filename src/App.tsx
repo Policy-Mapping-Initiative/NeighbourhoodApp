@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 const Main = styled('div')({});
 
 export function App() {
-  const [containerRef, { width, height }] = useElementSize();
+  const [containerRef, { width, height }] = useElementSize(); // eslint-disable-line @typescript-eslint/no-unused-vars
   const [searchText, setSearchText] = useLocalStorage('searchText', '');
   const [zone, setZone] = useLocalStorage('zone', 'single');
 
