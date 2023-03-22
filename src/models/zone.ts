@@ -46,11 +46,47 @@ export class Zone implements Feature {
         return this.properties.zoneType;
     }
 
+    private set zoneType(newZoneType) {
+        this.zoneType = newZoneType
+    }
+
     get landUse() { 
         return this.properties.landUse;
     }
 
+    private set landUse(newLandUse) {
+        this.landUse = newLandUse;
+    }
+
     get id() { 
         return this.properties.id;
+
+    }
+
+    /**
+     * Updates the zoning for an area and sunres that the landUse for the area reflects this new zoning.
+     * @param newZoning The new zoning we want to apply to the area
+     */
+    updateZoning(newZoning: ZoneType) {
+        this.zoneType = newZoning;
+
+        switch (newZoning) {
+            case ZoneType.RESIDENTIAL:
+            case ZoneType.RESIDENTIAL_LOW:
+            case ZoneType.RESIDENTIAL_MID_HIGH:
+                this.landUse = LandUse.RESIDENTIAL;
+                break;
+            case ZoneType.MIXED_USE:
+                this.landUse = LandUse.MIXED_USE;
+                break;
+            case ZoneType.EMPLOYMENT:
+            case ZoneType.COMMERCIAL:
+            case ZoneType.OPEN_SPACE:
+                this.landUse = LandUse.NON_RESIDENTIAL;
+                break;
+            case ZoneType.OTHER:
+                this.landUse = LandUse.OTHER;
+                break;
+        }
     }
 }

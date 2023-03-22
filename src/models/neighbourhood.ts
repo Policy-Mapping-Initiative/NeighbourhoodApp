@@ -1,3 +1,4 @@
+import { ThirtyFpsSelect } from '@mui/icons-material';
 import { 
     MultiPolygon,
     FeatureCollection,
@@ -54,11 +55,19 @@ export class Neighbourhood implements Feature {
     }
 
     get population() {
-        return this.properties.area;
+        return this.properties.population
+    }
+
+    private set population(newPopulation : number) {
+        this.properties.population = newPopulation;
     }
 
     get density() {
         return this.properties.density;
+    }
+
+    private set density (newDensity : number) {
+        this.properties.density = newDensity;
     }
 
     get residenceCount() {
@@ -115,5 +124,19 @@ export class Neighbourhood implements Feature {
 
     get singleFamilyArea() {
         return this.properties.singleFamilyArea;
+    }
+
+    get residentialAreaDensity() {
+        return this.population / this.residentialArea;
+    }
+
+    /**
+     * Updates both the population for a neighbourhood as well as adjusting density
+     * to reflect these new figures
+     * @param newPopulation 
+     */
+    updatePopulation(newPopulation : number) {
+        this.population = newPopulation;
+        this.density = this.population / this.area;
     }
 }
