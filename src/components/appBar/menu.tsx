@@ -10,7 +10,7 @@ export default function BasicMenu() {
   };
   const handleClose = () => { // eslint-disable-line @typescript-eslint/no-unused-vars
     setAnchorEl(null);
-  }; 
+  };
 
   return (
     <div>

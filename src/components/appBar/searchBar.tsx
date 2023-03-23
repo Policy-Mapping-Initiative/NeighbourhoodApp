@@ -3,7 +3,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { TopAppBarProps } from './index';
 
-
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -45,7 +44,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-
 
 export default function SearchBar(props: TopAppBarProps) {
   function handleUserInput(event: any) {
