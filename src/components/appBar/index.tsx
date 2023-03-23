@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import BasicMenu from './menu';
 import SearchBar from './searchBar';
 import { Dispatch, SetStateAction } from 'react';
+import { appBarStyle } from '../../styles';
 
 export interface TopAppBarProps {
   setSearchBar: Dispatch<SetStateAction<string>>;
@@ -13,7 +14,7 @@ export interface TopAppBarProps {
 export function TopAppBar(props: TopAppBarProps) {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={appBarStyle}>
         <Toolbar>
           <BasicMenu />
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
