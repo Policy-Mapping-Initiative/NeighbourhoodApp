@@ -14,23 +14,27 @@ interface CRS {
 
 export class ZoneCollection implements FeatureCollection {
     type: 'FeatureCollection';
-    crs: CRS;
+    crs: CRS | undefined;
     features: Zone[];
     private zoneHashMap: Map<string, Zone>      // Allows for faster o(1) retrieval of zones
 
-    constructor(input: any) {
+    constructor() {
         this.type = 'FeatureCollection';
-        this.crs = input.crs;
-        this.zoneHashMap = new Map<string, Zone>(); // 
-        
-        const temp = [];
-        for (const feature of input.features){
+        this.features = [];
+        this.zoneHashMap = new Map<string, Zone>();
+    }
+
+    initialise(zoneData: any) {
+        this.crs = zoneData.crs;
+
+        for (const feature of zoneData.features){
             const newZone = new Zone(feature);
             this.zoneHashMap.set(newZone.id, newZone);
-            temp.push(newZone);
+            this.features.push(newZone);
         }
-        this.features = temp;
     }
+
+
 
     /**
      * 

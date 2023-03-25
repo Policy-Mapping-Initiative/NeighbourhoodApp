@@ -26,3 +26,9 @@ export enum Colour {
   BLUE = "#4169e1",
   BLACK = "#fffff"
 }
+
+export enum PROCESS_STATE {
+  NOT_STARTED,
+  PROCESSING,
+  COMPLETE
+}

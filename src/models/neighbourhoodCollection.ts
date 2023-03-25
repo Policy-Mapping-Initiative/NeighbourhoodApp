@@ -12,20 +12,23 @@ interface CRS {
 
 export class NeighbourhoodCollection implements FeatureCollection {
     type: 'FeatureCollection';
-    crs: CRS;
+    crs: CRS | undefined;       // TODO: This should be done in a better way
     features: Neighbourhood[];
 
-    constructor(input: any) {
-        this.type = 'FeatureCollection';
-        this.crs = input.crs;
 
-        const temp = [];
-        let i = 0;
-        for (const feature of input.features){
-            temp.push(new Neighbourhood(feature))
+    constructor() {
+        this.type = 'FeatureCollection';
+        this.features = [];
+    }
+
+    initialise(neighbourhoodData: any) {
+        this.crs = neighbourhoodData.crs;
+
+        for (const feature of neighbourhoodData.features){
+            this.features.push(new Neighbourhood(feature));
         }
-        // Sort the array to help for O(1) retrieval
-        this.features = temp.sort((neighbourhoodA, neighbourhoodB) => neighbourhoodA.neighbourhoodId - neighbourhoodB.neighbourhoodId);
+
+        this.features.sort((neighbourhoodA, neighbourhoodB) => neighbourhoodA.neighbourhoodId - neighbourhoodB.neighbourhoodId);
     }
 
     /**
