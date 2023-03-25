@@ -13,7 +13,9 @@ const initialState = {
 }
 
 export const fetchZoneData = createAsyncThunk("fetch/zones", async() => {
-  return await fetchZippedJsonFile('zones.zip');
+  let test = await fetchZippedJsonFile('zones.zip');
+  console.log(test);
+  return test;
 })
 
 export const zoneSlice = createSlice({
@@ -27,8 +29,9 @@ export const zoneSlice = createSlice({
   extraReducers: builder => {
     builder
         .addCase(fetchZoneData.fulfilled, (state, action) => {
-            state.data.initialise(action.payload);
-            state.initialisationComplete = true
+          console.log('here2')
+          state.initialisationComplete = true
+          //state.data.initialise(action.payload);
         })
   }
 });

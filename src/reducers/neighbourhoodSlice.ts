@@ -29,8 +29,10 @@ export const neighbourSlice = createSlice({
   extraReducers: builder => {
     builder
         .addCase(fetchNeighbourhoodData.fulfilled, (state, action) => {
-            state.data.initialise(action.payload);
+            console.log(action.payload);
             state.initialisationComplete = true
+            //state.data.initialise(action.payload);
+            
         })
   }
 });

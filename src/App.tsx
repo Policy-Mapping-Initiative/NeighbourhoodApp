@@ -19,7 +19,7 @@ export function App() {
   const dispatch = useAppDispatch();
   const isZoneLoad= (useAppSelector(isZoneInitComplete));
   const isNeighbourhoodLoad= (useAppSelector(isNeighbourhoodInitComplete));
-  const isLoading = !(isZoneLoad && isNeighbourhoodLoad);
+  const isLoading = !isNeighbourhoodLoad;
 
   useEffect(() => {
     console.log(searchText, '- Has changed');
