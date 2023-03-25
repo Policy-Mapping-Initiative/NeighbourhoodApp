@@ -11,7 +11,7 @@ export async function fetchZippedJsonFile(zipFile: string) : Promise<object> {
     let response;
     
     try {
-        response = await axios.get(zipFile);
+        response = await axios.get(zipFile, {responseType: "blob"});
     }
     catch (err) {
         // TODO: This shouldnt fail but we should do something to notify the user to reload on error
