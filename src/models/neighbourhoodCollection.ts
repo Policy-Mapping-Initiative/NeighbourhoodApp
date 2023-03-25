@@ -28,7 +28,7 @@ export class NeighbourhoodCollection implements FeatureCollection {
             this.features.push(new Neighbourhood(feature));
         }
 
-        this.features.sort((neighbourhoodA, neighbourhoodB) => neighbourhoodA.neighbourhoodId - neighbourhoodB.neighbourhoodId);
+        this.features.sort((neighbourhoodA, neighbourhoodB) => neighbourhoodA.id - neighbourhoodB.id);
     }
 
     /**

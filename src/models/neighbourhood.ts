@@ -10,7 +10,7 @@ import {Zone} from './zone'
 
 interface Props {
     name: string,
-    neighbourhoodId: number,
+    id: number,
     area: number,
     population: number,
     density: number,
@@ -46,8 +46,8 @@ export class Neighbourhood implements Feature {
         return this.properties.name;
     }
 
-    get neighbourhoodId() {
-        return this.properties.neighbourhoodId;
+    get id() {
+        return this.properties.id;
     }
 
     get area() {
