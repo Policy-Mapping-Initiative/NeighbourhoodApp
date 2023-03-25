@@ -7,7 +7,6 @@ import { Marker, Popup } from 'react-leaflet';
 import { Typography, Divider } from '@mui/material';
 import { MapProps } from './index';
 
-
 export function createPopup(props: MapProps) {
   const handleChange = (event: SelectChangeEvent) => {
     props.setZone(event.target.value);
@@ -22,7 +21,13 @@ export function createPopup(props: MapProps) {
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth>
             <InputLabel>Zone</InputLabel>
-            <Select labelId="zone-selector-1" value={props.zoneVar} id="zone-selector" label="Zone" onChange={handleChange}>
+            <Select
+              labelId="zone-selector-1"
+              value={props.zoneVar}
+              id="zone-selector"
+              label="Zone"
+              onChange={handleChange}
+            >
               <MenuItem value={'single'}>Single</MenuItem>
               <MenuItem value={'double'}>Double</MenuItem>
               <MenuItem value={'triple'}>Triple</MenuItem>

@@ -8,9 +8,9 @@ export default function BasicMenu() {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => { // eslint-disable-line @typescript-eslint/no-unused-vars
-    setAnchorEl(null);
-  }; 
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   return (
     <div>
