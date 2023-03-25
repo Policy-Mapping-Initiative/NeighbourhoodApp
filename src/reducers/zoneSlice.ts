@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { PROCESS_STATE } from '../models/enums';
 import { ZoneCollection } from '../models/zoneCollection';
 import { fetchZippedJsonFile } from '../utils/utils';
 
@@ -9,7 +8,7 @@ interface ZoneState {
 }
 
 const initialState = {
-  initialisationStatus: PROCESS_STATE.NOT_STARTED,
+  initialisationComplete: false,
   data: new ZoneCollection(),
 }
 
@@ -27,12 +26,9 @@ export const zoneSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-        .addCase(fetchZoneData.pending, (state, _) => {
-          state.initialisationStatus = PROCESS_STATE.NOT_STARTED
-        })
         .addCase(fetchZoneData.fulfilled, (state, action) => {
             state.data.initialise(action.payload);
-            state.initialisationStatus = PROCESS_STATE.COMPLETE
+            state.initialisationComplete = true
         })
   }
 });

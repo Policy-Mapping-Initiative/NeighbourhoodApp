@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { PROCESS_STATE } from '../models/enums';
 import { NeighbourhoodCollection } from '../models/neighbourhoodCollection';
 import { fetchZippedJsonFile } from '../utils/utils';
 
@@ -10,7 +9,7 @@ interface NeighbourhoodState {
 
 // Fix this
 const initialState = {
-  initialisationStatus: PROCESS_STATE.NOT_STARTED,
+  initialisationComplete: false,
   data: new NeighbourhoodCollection()
 }
 
@@ -29,13 +28,9 @@ export const neighbourSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-        .addCase(fetchNeighbourhoodData.pending, (state, _) => {
-          console.log("Here");
-          state.initialisationStatus = PROCESS_STATE.NOT_STARTED
-        })
         .addCase(fetchNeighbourhoodData.fulfilled, (state, action) => {
             state.data.initialise(action.payload);
-            state.initialisationStatus = PROCESS_STATE.COMPLETE
+            state.initialisationComplete = true
         })
   }
 });
