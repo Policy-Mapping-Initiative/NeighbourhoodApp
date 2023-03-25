@@ -2,26 +2,32 @@ import { Map } from './components/map';
 import { TopAppBar } from './components/appBar';
 import { styled } from '@mui/material/styles';
 import { useLocalStorage } from 'usehooks-ts';
-import { useEffect } from 'react';
+import { Component, useEffect } from 'react';
+import { fetchNeighbourhoodData } from './reducers/neighbourhoodSlice';
+import { fetchZoneData } from './reducers/zoneSlice';
+import { useAppDispatch } from './store';
 
 const Main = styled('div')({});
 
-export function App() {
-  const [searchText, setSearchText] = useLocalStorage('searchText', '');
-  const [zone, setZone] = useLocalStorage('zone', 'single');
+export default class App extends Component {
 
-  useEffect(() => {
-    console.log(searchText, '- Has changed');
-  }, [searchText]);
+  dispatch = useAppDispatch()
 
-  useEffect(() => {
-    console.log(zone, '- Has changed');
-  }, [zone]);
+  componentDidMount(): void {
+    this.dispatch(fetchNeighbourhoodData);
+    this.dispatch(fetchZoneData);
+  }
 
-  return (
-    <Main>
-      <TopAppBar setSearchBar={setSearchText} />
-      <Map setZone={setZone} zoneVar={zone} />
-    </Main>
-  );
+  render() {
+    // TODO: functional com
+    //const [searchText, setSearchText] = useLocalStorage('searchText', '');
+    //const [zone, setZone] = useLocalStorage('zone', 'single');
+    
+    return (
+      <Main>
+        <TopAppBar setSearchBar={this.dispatchsetSearchText} />
+        <Map setZone={setZone} zoneVar={zone} />
+      </Main>
+    );
+  }
 }

@@ -13,7 +13,7 @@ const initialState = {
   data: new ZoneCollection(),
 }
 
-export const fetchZoneData = createAsyncThunk("zones", async() => {
+export const fetchZoneData = createAsyncThunk("fetch/zones", async() => {
   return await fetchZippedJsonFile('zones.zip');
 })
 

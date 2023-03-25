@@ -14,9 +14,9 @@ const initialState = {
   data: new NeighbourhoodCollection()
 }
 
-export const fetchNeighbourhoodData = createAsyncThunk("neighbourhoods", async() => {
+export const fetchNeighbourhoodData = createAsyncThunk("fetch/neighbourhoods", async() => {
     return await fetchZippedJsonFile('neighbourhoods.zip');
-})
+});
 
 export const neighbourSlice = createSlice({
   name: 'neighbourhoodData',
@@ -30,6 +30,7 @@ export const neighbourSlice = createSlice({
   extraReducers: builder => {
     builder
         .addCase(fetchNeighbourhoodData.pending, (state, _) => {
+          console.log("Here");
           state.initialisationStatus = PROCESS_STATE.NOT_STARTED
         })
         .addCase(fetchNeighbourhoodData.fulfilled, (state, action) => {
