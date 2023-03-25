@@ -1,13 +1,12 @@
 import axios from 'axios';
 import JSZip from 'jszip';
-import { isNonNullExpression } from 'typescript';
 
 /**
  * Fetches data from a zipped json file stored in the applications public directory
  * @param zipFile A path to a zip file stored within the public directory. It is assumed that the zip file
  * has only one file within it. A json which has the same name as the zip file but for the file extension
  */
-export async function fetchZippedJsonFile(zipFile: string) : Promise<object> {
+export async function fetchZippedJsonFile<T>(zipFile: string): Promise<T> {
     let response;
     
     try {
