@@ -16,7 +16,7 @@ export function App() {
   const [searchText, setSearchText] = useLocalStorage('searchText', '');
   const [zone, setZone] = useLocalStorage('zone', 'single');
   const dispatch = useAppDispatch();
-  const isZoneLoad= (useAppSelector(isZoneInitComplete));
+  const isZoneLoad = useAppSelector(isZoneInitComplete);
   const isNeighbourhoodLoad = useAppSelector(isNeighbourhoodInitComplete);
   const isLoading = !isNeighbourhoodLoad && !isZoneLoad;
 

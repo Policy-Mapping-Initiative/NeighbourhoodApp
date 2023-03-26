@@ -16,7 +16,6 @@ export const fetchZoneData = createAsyncThunk('fetch/zones', async () => {
   return await fetchZippedJsonFile<IZone>('zones.zip');
 });
 
-
 export const zoneSlice = createSlice({
   name: 'zoneData',
   initialState: initialState,
