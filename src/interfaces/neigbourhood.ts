@@ -35,7 +35,7 @@ export interface NeigbourhoodProps {
   duplexCount: number;
   lowRiseCount: number;
   density: number;
-  zones?: string[] | null;
+  zones?: number[] | null;
   residentialArea: number;
   nonResidentialArea: number;
   mixedUseArea: number;
