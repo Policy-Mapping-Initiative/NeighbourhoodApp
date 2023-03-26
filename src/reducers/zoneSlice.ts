@@ -7,10 +7,10 @@ interface ZoneState {
   initialisationComplete: boolean;
 }
 
-const initialState = <ZoneState>{
+const initialState = {
   initialisationComplete: false,
   data: null,
-};
+} as ZoneState;
 
 export const fetchZoneData = createAsyncThunk('fetch/neighbourhoods', async () => {
   return await fetchZippedJsonFile<IZone>('neighbourhoods.zip');

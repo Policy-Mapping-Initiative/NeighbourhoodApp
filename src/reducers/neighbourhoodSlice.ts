@@ -9,10 +9,10 @@ interface NeighbourhoodState {
   initialisationComplete: boolean;
 }
 
-const initialState = <NeighbourhoodState>{
+const initialState = {
   data: null,
   initialisationComplete: false,
-};
+} as NeighbourhoodState;
 
 export const fetchNeighbourhoodData = createAsyncThunk('fetch/neighbourhoods', async () => {
   return await fetchZippedJsonFile<INeighbourhood>('neighbourhoods.zip');
