@@ -1,11 +1,11 @@
 import { MultiPolygon } from 'geojson';
 
-export interface IZone {
+export interface IZoneCollection {
   type: string;
-  features?: FeaturesEntity[] | null;
+  features?: IZone[] | null;
 }
 
-export interface FeaturesEntity {
+export interface IZone {
   type: string;
   properties: ZoneProperties;
   geometry: MultiPolygon;

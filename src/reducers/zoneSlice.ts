@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchZippedJsonFile } from '../utils/utils';
-import { IZone } from '../interfaces/zone';
+import { IZoneCollection } from '../interfaces/zone';
 
 interface ZoneState {
-  data: IZone | null;
+  data: IZoneCollection | null;
   initialisationComplete: boolean;
 }
 
@@ -13,7 +13,7 @@ const initialState = {
 } as ZoneState;
 
 export const fetchZoneData = createAsyncThunk('fetch/zones', async () => {
-  return await fetchZippedJsonFile<IZone>('zones.zip');
+  return await fetchZippedJsonFile<IZoneCollection>('zones.zip');
 });
 
 export const zoneSlice = createSlice({
