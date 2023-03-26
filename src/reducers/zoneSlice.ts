@@ -12,8 +12,8 @@ const initialState = {
   data: null,
 } as ZoneState;
 
-export const fetchZoneData = createAsyncThunk('fetch/neighbourhoods', async () => {
-  return await fetchZippedJsonFile<IZone>('neighbourhoods.zip');
+export const fetchZoneData = createAsyncThunk('fetch/zones', async () => {
+  return await fetchZippedJsonFile<IZone>('zones.zip');
 });
 
 
