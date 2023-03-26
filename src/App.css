@@ -1,0 +1,12 @@
+#initial-loader {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1000;
+}
+
+.blurred {
+  filter: blur(2px);
+}
