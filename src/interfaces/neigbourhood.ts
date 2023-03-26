@@ -1,9 +1,9 @@
 import { MultiPolygon } from 'geojson';
 
-export interface INeighbourhood {
+export interface INeighbourhoodCollection {
   type: string;
   crs: CRS;
-  features?: NeighbourhoodFeature[] | null;
+  features?: INeighbourhood[] | null;
 }
 
 export interface CRS {
@@ -15,7 +15,7 @@ interface CRSProps {
   name: string;
 }
 
-export interface NeighbourhoodFeature {
+export interface INeighbourhood {
   type: string;
   properties: NeigbourhoodProps;
   geometry: MultiPolygon;

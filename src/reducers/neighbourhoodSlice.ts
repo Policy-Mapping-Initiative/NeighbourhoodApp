@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 // import { NeighbourhoodCollection } from '../models/neighbourhoodCollection';
 import { fetchZippedJsonFile } from '../utils/utils';
-import { INeighbourhood } from '../interfaces/neigbourhood';
+import { INeighbourhoodCollection } from '../interfaces/neigbourhood';
 // import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface NeighbourhoodState {
-  data: INeighbourhood | null;
+  data: INeighbourhoodCollection | null;
   initialisationComplete: boolean;
 }
 
@@ -15,7 +15,7 @@ const initialState = {
 } as NeighbourhoodState;
 
 export const fetchNeighbourhoodData = createAsyncThunk('fetch/neighbourhoods', async () => {
-  return await fetchZippedJsonFile<INeighbourhood>('neighbourhoods.zip');
+  return await fetchZippedJsonFile<INeighbourhoodCollection>('neighbourhoods.zip');
 });
 
 export const neighbourSlice = createSlice({
