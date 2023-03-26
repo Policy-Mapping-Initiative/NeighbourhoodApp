@@ -1,37 +1,34 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { ZoneCollection } from '../models/zoneCollection';
 import { fetchZippedJsonFile } from '../utils/utils';
-
+import { IZone } from '../interfaces/zone';
 
 interface ZoneState {
-  data: ZoneCollection;
+  data: IZone | null;
+  initialisationComplete: boolean;
 }
 
-const initialState = {
+const initialState = <ZoneState>{
   initialisationComplete: false,
-  data: new ZoneCollection(),
-}
+  data: null,
+};
 
-export const fetchZoneData = createAsyncThunk("fetch/zones", async() => {
-  let test = await fetchZippedJsonFile('zones.zip');
-  console.log(test);
-  return test;
-})
+export const fetchZoneData = createAsyncThunk('fetch/neighbourhoods', async () => {
+  return await fetchZippedJsonFile<IZone>('neighbourhoods.zip');
+});
+
 
 export const zoneSlice = createSlice({
   name: 'zoneData',
   initialState: initialState,
   reducers: {
-    updateZoning(state, action) {
-        state.data.getZone(action.payload.id).updateZoning(action.payload.newZoning);
-    }
+    // updateZoning(state, action) {
+    //   state.data.getZone(action.payload.id).updateZoning(action.payload.newZoning);
+    // },
   },
   extraReducers: builder => {
-    builder
-        .addCase(fetchZoneData.fulfilled, (state, action) => {
-          console.log('here2')
-          state.initialisationComplete = true
-          //state.data.initialise(action.payload);
-        })
-  }
+    builder.addCase(fetchZoneData.fulfilled, (state, action) => {
+      state.data = action.payload;
+      state.initialisationComplete = true;
+    });
+  },
 });
