@@ -20,9 +20,6 @@ export const zoneSlice = createSlice({
   name: 'zoneData',
   initialState: initialState,
   reducers: {
-    // updateZoning(state, action) {
-    //   state.data.getZone(action.payload.id).updateZoning(action.payload.newZoning);
-    // },
   },
   extraReducers: builder => {
     builder.addCase(fetchZoneData.fulfilled, (state, action) => {
