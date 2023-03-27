@@ -15,7 +15,7 @@ import { IZone } from '../../interfaces/zone';
 
 export function NeighbourhoodOverlay(feat: INeighbourhood, neighbourhoodIdSetter: Dispatch<SetStateAction<string>>) {
   const [value, setValue] = useState('single');
-  const [neighId, setId] = useState(feat.properties.id.toString()); // eslint-disable-line
+  const neighId = feat.properties.id.toString();
   const dispatch = useAppDispatch();
 
   const onChange = (event: SelectChangeEvent) => {
@@ -114,6 +114,9 @@ export function ZoneOverlay(feat: IZone) {
           mouseout: (event: L.LeafletMouseEvent) => onMouseEvent(event, 'out'),
         }}
       >
+        <Popup>
+          <Typography variant="subtitle2">ID: {id}</Typography>
+        </Popup>
       </GeoJSON>
     </LayerGroup>
   );
