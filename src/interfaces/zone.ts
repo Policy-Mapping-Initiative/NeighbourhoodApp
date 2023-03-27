@@ -13,7 +13,7 @@ export interface IZone {
 
 export interface ZoneProperties {
   landUse: string;
-  id: string;
+  id: number;
   area: number;
   type: string;
   neighbourhoodId: number;
