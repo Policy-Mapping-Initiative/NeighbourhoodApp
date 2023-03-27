@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchZippedJsonFile } from '../utils/utils';
+import { fetchZippedJsonFile } from '../utils';
 import { IZoneCollection } from '../interfaces/zone';
 
 interface ZoneState {
