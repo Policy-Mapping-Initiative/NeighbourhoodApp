@@ -40,10 +40,10 @@ export const zoneSlice = createSlice({
         for (const zone of action.payload.features){
           let temp = state.neighbourMap[zone.properties.neighbourhoodId];
           if (temp){
-            temp.push(zone.properties.id);
+            temp.push(zone.properties.id.toString());
           }
           else {
-            temp = [zone.properties.id];
+            temp = [zone.properties.id.toString()];
           }
           state.neighbourMap[zone.properties.neighbourhoodId] = temp;
           state.data[zone.properties.id] = zone;
