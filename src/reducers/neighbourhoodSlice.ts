@@ -1,16 +1,22 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-// import { NeighbourhoodCollection } from '../models/neighbourhoodCollection';
-import { fetchZippedJsonFile } from '../utils/utils';
+import { fetchZippedJsonFile } from '../utils';
 import { INeighbourhoodCollection } from '../interfaces/neigbourhood';
-// import type { PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+interface updateZone {
+  neighbourhoodId: string;
+  newZoning: string;
+}
 
 interface NeighbourhoodState {
   data: INeighbourhoodCollection | null;
+  userSetZoning: Array<updateZone>;
   initialisationComplete: boolean;
 }
 
 const initialState = {
   data: null,
+  userSetZoning: [],
   initialisationComplete: false,
 } as NeighbourhoodState;
 
@@ -22,10 +28,14 @@ export const neighbourSlice = createSlice({
   name: 'neighbourhood',
   initialState: initialState,
   reducers: {
-    // This is just an example to tie it all together. Perhaps not the recommended way of doing things
-    // updatePopulation(state, action: PayloadAction<>) {
-    //     state.data.getNeighbourhoodById(action.payload.neighbourhoodId).updatePopulation(action.payload.newPopulation);
-    // },
+    updateUserSetZoning(state, action: PayloadAction<{ neighbourhoodId: string; newZoning: string }>) {
+      const temp = {
+        neighbourhoodId: action.payload.neighbourhoodId,
+        newZoning: action.payload.newZoning,
+      } as updateZone;
+      state.userSetZoning = state.userSetZoning.filter(item => item.neighbourhoodId !== temp.neighbourhoodId);
+      state.userSetZoning.push(temp);
+    },
   },
   extraReducers: builder => {
     builder.addCase(fetchNeighbourhoodData.fulfilled, (state, action) => {
@@ -34,3 +44,5 @@ export const neighbourSlice = createSlice({
     });
   },
 });
+
+export const { updateUserSetZoning } = neighbourSlice.actions;

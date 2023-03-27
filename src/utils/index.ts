@@ -28,3 +28,23 @@ export async function fetchZippedJsonFile<T>(zipFile: string): Promise<T> {
 
   return JSON.parse(responseText);
 }
+
+/**
+ * Creates a colour going from red to green with higher percentages being more red
+ * Percentages less than 50 map to a green, greater (or equal) than 50 maps to a red.
+ * @param perc A percentage in the space of 0-100
+ * @returns A hex colour code where
+ */
+export function perc2color(perc: number): string {
+  let r, g;
+  const b = 0;
+  if (perc < 50) {
+    g = 255;
+    r = Math.round(5.1 * perc);
+  } else {
+    r = 255;
+    g = Math.round(510 - 5.1 * perc);
+  }
+  const h = r * 0x10000 + g * 0x100 + b * 0x1;
+  return '#' + ('000000' + h.toString(16)).slice(-6);
+}

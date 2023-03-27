@@ -14,7 +14,6 @@ const Main = styled('div')({});
 
 export function App() {
   const [searchText, setSearchText] = useLocalStorage('searchText', '');
-  const [zone, setZone] = useLocalStorage('zone', 'single');
   const dispatch = useAppDispatch();
   const isZoneLoad = useAppSelector(isZoneInitComplete);
   const isNeighbourhoodLoad = useAppSelector(isNeighbourhoodInitComplete);
@@ -24,10 +23,6 @@ export function App() {
     console.log(searchText, '- Has changed');
   }, [searchText]);
 
-  useEffect(() => {
-    console.log(zone, '- Has changed');
-  }, [zone]);
-
   useEffectOnce(() => {
     dispatch(fetchNeighbourhoodData());
   });
@@ -36,13 +31,18 @@ export function App() {
     dispatch(fetchZoneData());
   });
 
+  if (isLoading) {
+    return (
+      <Main>
+        <CircularProgress id="initial-loader" />
+      </Main>
+    );
+  }
+
   return (
     <Main>
-      {isLoading ? <CircularProgress id="initial-loader" /> : null}
       <TopAppBar setSearchBar={setSearchText} />
-      <div className={isLoading ? 'blurred' : 'unblurred'}>
-        <Map setZone={setZone} zoneVar={zone} />
-      </div>
+      <Map />
     </Main>
   );
 }
