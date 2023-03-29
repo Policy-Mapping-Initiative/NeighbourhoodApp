@@ -1,8 +1,7 @@
 import { Map } from './components/map';
 import { TopAppBar } from './components/appBar';
 import { styled } from '@mui/material/styles';
-import { useEffectOnce, useLocalStorage } from 'usehooks-ts';
-import { useEffect } from 'react';
+import { useEffectOnce } from 'usehooks-ts';
 import { useAppDispatch, useAppSelector } from './store';
 import { fetchNeighbourhoodData } from './reducers/neighbourhoodSlice';
 import { fetchZoneData } from './reducers/zoneSlice';
@@ -13,15 +12,10 @@ import { isNeighbourhoodInitComplete, isZoneInitComplete } from './selectors';
 const Main = styled('div')({});
 
 export function App() {
-  const [searchText, setSearchText] = useLocalStorage('searchText', '');
   const dispatch = useAppDispatch();
   const isZoneLoad = useAppSelector(isZoneInitComplete);
   const isNeighbourhoodLoad = useAppSelector(isNeighbourhoodInitComplete);
   const isLoading = !isNeighbourhoodLoad && !isZoneLoad;
-
-  useEffect(() => {
-    console.log(searchText, '- Has changed');
-  }, [searchText]);
 
   useEffectOnce(() => {
     dispatch(fetchNeighbourhoodData());
@@ -41,7 +35,7 @@ export function App() {
 
   return (
     <Main>
-      <TopAppBar setSearchBar={setSearchText} />
+      <TopAppBar />
       <Map />
     </Main>
   );
