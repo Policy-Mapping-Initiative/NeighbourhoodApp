@@ -1,15 +1,25 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchZippedJsonFile } from '../utils/utils';
-import { IZoneCollection } from '../interfaces/zone';
+import { fetchZippedJsonFile } from '../utils';
+import { IZoneCollection, IZone } from '../interfaces/zone';
+
+type zoneMapping = {
+  [key: string]: IZone;
+}
+
+type neighbourhoodMapping = {
+  [key: string]: string[];
+}
 
 interface ZoneState {
-  data: IZoneCollection | null;
+  data: zoneMapping;
+  neighbourMap: neighbourhoodMapping;
   initialisationComplete: boolean;
 }
 
 const initialState = {
   initialisationComplete: false,
-  data: null,
+  neighbourMap: {},
+  data: {},
 } as ZoneState;
 
 export const fetchZoneData = createAsyncThunk('fetch/zones', async () => {
@@ -23,7 +33,19 @@ export const zoneSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(fetchZoneData.fulfilled, (state, action) => {
-      state.data = action.payload;
+      if (action.payload.features){
+        for (const zone of action.payload.features){
+          let temp = state.neighbourMap[zone.properties.neighbourhoodId];
+          if (temp){
+            temp.push(zone.properties.id.toString());
+          }
+          else {
+            temp = [zone.properties.id.toString()];
+          }
+          state.neighbourMap[zone.properties.neighbourhoodId] = temp;
+          state.data[zone.properties.id] = zone;
+      }
+    }
       state.initialisationComplete = true;
     });
   },
