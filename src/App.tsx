@@ -6,9 +6,10 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './store';
 import { fetchNeighbourhoodData } from './reducers/neighbourhoodSlice';
 import { fetchZoneData } from './reducers/zoneSlice';
+import { fetchSupplementalData } from './reducers/supplementSlice';
 import { CircularProgress } from '@mui/material';
 import './App.css';
-import { isNeighbourhoodInitComplete, isZoneInitComplete } from './selectors';
+import { isNeighbourhoodInitComplete, isZoneInitComplete, isSupplementInitComplete } from './selectors';
 
 const Main = styled('div')({});
 
@@ -17,7 +18,8 @@ export function App() {
   const dispatch = useAppDispatch();
   const isZoneLoad = useAppSelector(isZoneInitComplete);
   const isNeighbourhoodLoad = useAppSelector(isNeighbourhoodInitComplete);
-  const isLoading = !isNeighbourhoodLoad && !isZoneLoad;
+  const isSupplementLoad = useAppSelector(isSupplementInitComplete);
+  const isLoading = !isNeighbourhoodLoad && !isZoneLoad && !isSupplementLoad;
 
   useEffect(() => {
     console.log(searchText, '- Has changed');
@@ -29,6 +31,10 @@ export function App() {
 
   useEffectOnce(() => {
     dispatch(fetchZoneData());
+  });
+
+  useEffectOnce(() => {
+    dispatch(fetchSupplementalData());
   });
 
   if (isLoading) {

@@ -9,4 +9,8 @@ export const isZoneInitComplete = (state: RootState) => state.zones.initialisati
 export const getNeighbourhoodMapping = (state: RootState) => state.zones.neighbourMap;
 export const getZones = (state: RootState) => state.zones.data;
 
+// TTC
+export const isSupplementInitComplete = (state: RootState) => state.supplement.initialisationComplete;
+export const getTTCData = (state: RootState) => state.supplement.data;
+
 // Other Selectors Down Here, please keep it neat !
