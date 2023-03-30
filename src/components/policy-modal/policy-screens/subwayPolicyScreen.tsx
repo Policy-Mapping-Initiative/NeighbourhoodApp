@@ -1,11 +1,22 @@
 import { Typography, Box } from "@mui/material";
-import { useAppDispatch } from "../../../store";
+import { SubwayPolicyState } from "../../../models/enums";
+import { setSubwayPolicy } from "../../../reducers/policySlice";
+import { subwayPolicy } from "../../../selectors";
+import { useAppDispatch, useAppSelector } from "../../../store";
 import ImageButton from "../../common/imageButton";
 
 
 
 export default function SubwayPolicyScreen() {
     const dispatch = useAppDispatch();
+    const currentPolicy = useAppSelector(subwayPolicy);
+
+    const updateSubwayPolicy = (newPolicy: SubwayPolicyState) => {
+      return () => {
+        dispatch(setSubwayPolicy({newPolicy: newPolicy}));
+      }
+    } 
+
 
     // TODO: Look in to creating a tool-tip so the user can hover over "as-of-right" and get a brief definition
 
@@ -20,11 +31,15 @@ export default function SubwayPolicyScreen() {
                   sourceUrl="https://upload.wikimedia.org/wikipedia/commons/3/37/Suburbia_by_David_Shankbone.jpg"
                   width="50%"
                   title="Low Density"
+                  selected = {currentPolicy === SubwayPolicyState.LOW_DENSITY}
+                  onClick = {updateSubwayPolicy(SubwayPolicyState.LOW_DENSITY)}
                 />
                 <ImageButton 
                   sourceUrl="https://upload.wikimedia.org/wikipedia/commons/3/3d/Condo_Towers_Bayview_Village.jpg"
                   width="50%"
                   title="High Density"
+                  selected = {currentPolicy === SubwayPolicyState.HIGH_DENSITY}
+                  onClick = {updateSubwayPolicy(SubwayPolicyState.HIGH_DENSITY)}
                 />
             </Box>
         </div>    

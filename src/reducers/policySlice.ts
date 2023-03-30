@@ -1,14 +1,17 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
+import { SubwayPolicyState } from "../models/enums";
 
 
 interface PolicyState {
   isModalOpen: boolean
-  displayedPolicy: number
+  displayedPolicy: number,
+  subwayPolicy: SubwayPolicyState
 }
 
 const initialState = {
   isModalOpen: false,
-  displayedPolicy: 0
+  displayedPolicy: 0,
+  subwayPolicy: SubwayPolicyState.NOT_SET
 } as PolicyState;
 
 
@@ -18,7 +21,6 @@ export const policySlice = createSlice({
   initialState: initialState,
   reducers: {
     openPolicyModal(state) {
-        console.log("Here");
         state.isModalOpen = true;
         
     },
@@ -35,9 +37,17 @@ export const policySlice = createSlice({
       if (state.displayedPolicy > 0) {
         state.displayedPolicy -= 1;
       }
+    },
+    setSubwayPolicy(state, action: PayloadAction<{newPolicy: SubwayPolicyState}>) {
+      state.subwayPolicy = action.payload.newPolicy;
     }
 
   },
 });
 
-export const { openPolicyModal, closePolicyModal, incrementDisplayedPolicy, decrementDisplayedPolicy } = policySlice.actions;
+export const { 
+  openPolicyModal, 
+  closePolicyModal, 
+  incrementDisplayedPolicy, 
+  decrementDisplayedPolicy, 
+  setSubwayPolicy } = policySlice.actions;

@@ -1,6 +1,8 @@
 import { styled } from '@mui/material/styles';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
+import { SubwayPolicyState } from '../../models/enums';
+import { MouseEvent } from 'react';
 
 const StyledButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
@@ -11,7 +13,7 @@ const StyledButton = styled(ButtonBase)(({ theme }) => ({
   },
   '&:hover, &.Mui-focusVisible': {
     zIndex: 1,
-    '& .MuiImageBackdrop-root': {
+    '& .MuiImageBackdrop-root' : {
       opacity: 0.15,
     },
     '& .MuiImageMarked-root': {
@@ -21,6 +23,16 @@ const StyledButton = styled(ButtonBase)(({ theme }) => ({
       border: '4px solid currentColor',
     },
   },
+  "& .MuiImageMarked-root.selected": {
+    opacity: "0 !important"
+  },
+  "& .MuiImageBackdrop-root.selected": {
+    opacity: "0.15 !important"
+  },
+  "& .MuiTypography-root.selected": {
+    border: '4px solid currentColor'
+  },
+
 }));
 
 const ImageSrc = styled('span')({
@@ -70,9 +82,23 @@ interface ImageButtonProps {
   title: string, 
   sourceUrl: string,
   width: string
+  selected?: boolean
+  onClick(): void
 }
 
+
+
 export default function ImageButton(props: ImageButtonProps) {
+  console.log(`${props.title} Selected  ? ${props.selected}`);
+  
+  const preserveHighlighting = (event: TransitionEvent) : void => {
+    console.log("Here");
+    if (props.selected === true) {
+      event.preventDefault();
+    } 
+  }
+
+
   return (
     <StyledButton
       // focusRipple
@@ -80,14 +106,17 @@ export default function ImageButton(props: ImageButtonProps) {
       style={{
         width: props.width,
       }}
+      onClick = {props.onClick}
+      className = {props.selected ? "selected" : "not-selected"}
     >
       <ImageSrc style={{ backgroundImage: `url(${props.sourceUrl})` }} />
-      <ImageBackdrop className="MuiImageBackdrop-root" />
+      <ImageBackdrop className={`MuiImageBackdrop-root ${props.selected ? "selected" : "not-selected"}`} />
       <Image>
         <Typography
           component="span"
           variant="subtitle1"
           color="inherit"
+          className = {props.selected ? "selected" : "not-selected"}
           sx={{
             position: 'relative',
             p: 4,
@@ -96,7 +125,9 @@ export default function ImageButton(props: ImageButtonProps) {
           }}
         >
           {props.title}
-          <ImageMarked className="MuiImageMarked-root" />
+          <ImageMarked 
+            className= {`MuiImageMarked-root ${props.selected ? "selected" : "not-selected"}`}
+          />
         </Typography>
       </Image>
     </StyledButton>

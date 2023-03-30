@@ -12,5 +12,6 @@ export const getZones = (state: RootState) => state.zones.data;
 // Policies
 export const isPolicyModalOpen = (state: RootState) => state.policy.isModalOpen;
 export const displayedPolicy = (state: RootState) => state.policy.displayedPolicy;
+export const subwayPolicy = (state: RootState) => state.policy.subwayPolicy;
 
 // Other Selectors Down Here, please keep it neat !
