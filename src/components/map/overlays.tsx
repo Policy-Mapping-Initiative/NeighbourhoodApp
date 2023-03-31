@@ -89,8 +89,6 @@ export function NeighbourhoodOverlay(feat: INeighbourhood, neighbourhoodIdSetter
 }
 
 export function ZoneOverlay(feat: IZone) {
-  const id = feat.properties.id;
-
   const getColour = () : string => {
     switch (feat.properties.type) {
       case ZoneType.RESIDENTIAL_LOW:
@@ -125,7 +123,7 @@ export function ZoneOverlay(feat: IZone) {
   return (
     <LayerGroup>
       <GeoJSON
-        key={id}
+        key={feat.properties.id}
         data={feat.geometry}
         style={{ color: getColour(), fillOpacity: 0.2 }}
         eventHandlers={{
@@ -134,7 +132,8 @@ export function ZoneOverlay(feat: IZone) {
         }}
       >
         <Popup>
-          <Typography variant="subtitle2">ID: {id}</Typography>
+          <Typography variant="subtitle2">Type: {feat.properties.type}</Typography>
+          <Typography variant="subtitle2">ID: {feat.properties.id}</Typography>
         </Popup>
       </GeoJSON>
     </LayerGroup>
