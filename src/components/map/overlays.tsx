@@ -12,6 +12,7 @@ import { updateUserSetZoning } from '../../reducers/neighbourhoodSlice';
 import { perc2color } from '../../utils';
 import { Dispatch, useState, SetStateAction } from 'react';
 import { IZone } from '../../interfaces/zone';
+import { ZoneType } from '../../models/enums';
 
 export function NeighbourhoodOverlay(feat: INeighbourhood, neighbourhoodIdSetter: Dispatch<SetStateAction<string>>) {
   const [value, setValue] = useState('single');
@@ -88,7 +89,23 @@ export function NeighbourhoodOverlay(feat: INeighbourhood, neighbourhoodIdSetter
 }
 
 export function ZoneOverlay(feat: IZone) {
-  const id = feat.properties.id;
+  const getColour = () : string => {
+    switch (feat.properties.type) {
+      case ZoneType.RESIDENTIAL_LOW:
+      case ZoneType.RESIDENTIAL:
+        return "yellow";    
+      case ZoneType.RESIDENTIAL_MID_HIGH:
+        return "goldenrod"  
+      case ZoneType.OPEN_SPACE:
+        return "forestgreen";
+      case ZoneType.MIXED_USE:
+        return "mediumblue";
+      case ZoneType.COMMERCIAL:
+        return "goldenrod"
+      default: 
+        return "rebeccapurple"
+    }
+  }
 
   const onMouseEvent = (event: L.LeafletMouseEvent, type: string) => {
     switch (type) {
@@ -106,16 +123,17 @@ export function ZoneOverlay(feat: IZone) {
   return (
     <LayerGroup>
       <GeoJSON
-        key={id}
+        key={feat.properties.id}
         data={feat.geometry}
-        style={{ color: 'blue', fillOpacity: 0.2 }}
+        style={{ color: getColour(), fillOpacity: 0.2 }}
         eventHandlers={{
           mouseover: (event: L.LeafletMouseEvent) => onMouseEvent(event, 'over'),
           mouseout: (event: L.LeafletMouseEvent) => onMouseEvent(event, 'out'),
         }}
       >
         <Popup>
-          <Typography variant="subtitle2">ID: {id}</Typography>
+          <Typography variant="subtitle2">Type: {feat.properties.type}</Typography>
+          <Typography variant="subtitle2">ID: {feat.properties.id}</Typography>
         </Popup>
       </GeoJSON>
     </LayerGroup>

@@ -10,7 +10,7 @@ import {
   getNeighbourhoodLocs,
   getSearchValue,
 } from '../../selectors';
-import { NeighbourhoodOverlay, ZoneOverlay } from './popup';
+import { NeighbourhoodOverlay, ZoneOverlay } from './overlays';
 
 export interface MapProps {
   setZone: Dispatch<SetStateAction<string>>;
