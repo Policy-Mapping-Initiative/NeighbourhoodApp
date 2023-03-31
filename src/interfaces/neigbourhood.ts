@@ -1,4 +1,4 @@
-import { MultiPolygon } from 'geojson';
+import { Polygon } from 'geojson';
 
 export interface INeighbourhoodCollection {
   type: string;
@@ -18,7 +18,7 @@ interface CRSProps {
 export interface INeighbourhood {
   type: string;
   properties: NeigbourhoodProps;
-  geometry: MultiPolygon;
+  geometry: Polygon;
 }
 
 export interface NeigbourhoodProps {

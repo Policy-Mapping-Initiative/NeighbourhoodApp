@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchZippedJsonFile } from '../utils';
 import { INeighbourhoodCollection } from '../interfaces/neigbourhood';
+import L from 'leaflet';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface updateZone {
@@ -8,15 +9,23 @@ interface updateZone {
   newZoning: string;
 }
 
+export interface neighbourhoodLoc {
+  [key: string]: [number, number];
+}
+
 interface NeighbourhoodState {
   data: INeighbourhoodCollection | null;
   userSetZoning: Array<updateZone>;
+  neighbourhoodLocations: neighbourhoodLoc;
+  searchValue: string;
   initialisationComplete: boolean;
 }
 
 const initialState = {
   data: null,
   userSetZoning: [],
+  neighbourhoodLocations: {},
+  searchValue: '',
   initialisationComplete: false,
 } as NeighbourhoodState;
 
@@ -36,13 +45,27 @@ export const neighbourSlice = createSlice({
       state.userSetZoning = state.userSetZoning.filter(item => item.neighbourhoodId !== temp.neighbourhoodId);
       state.userSetZoning.push(temp);
     },
+    updateSearchValue(state, action: PayloadAction<string>) {
+      state.searchValue = action.payload;
+    }
   },
   extraReducers: builder => {
-    builder.addCase(fetchNeighbourhoodData.fulfilled, (state, action) => {
+    builder.addCase(fetchNeighbourhoodData.fulfilled, (state, action: PayloadAction<INeighbourhoodCollection>) => {
       state.data = action.payload;
+      if (action.payload.features){
+        for (const elem of action.payload.features) {
+          const key = elem.properties.name;
+          if (!Object.keys(state.neighbourhoodLocations).includes(key)) {
+            const coords = elem.geometry.coordinates[0] as L.LatLngTuple[];
+            const temp = L.polygon(coords).getBounds().getCenter();
+            const value: [number, number] = [temp.lng, temp.lat];
+            state.neighbourhoodLocations[key] = value;
+          }
+        }
+      }     
       state.initialisationComplete = true;
     });
   },
 });
 
-export const { updateUserSetZoning } = neighbourSlice.actions;
+export const { updateUserSetZoning, updateSearchValue } = neighbourSlice.actions;
