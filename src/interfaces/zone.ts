@@ -1,4 +1,4 @@
-import { MultiPolygon } from 'geojson';
+import { Polygon } from 'geojson';
 
 export interface IZoneCollection {
   type: string;
@@ -8,7 +8,7 @@ export interface IZoneCollection {
 export interface IZone {
   type: string;
   properties: ZoneProperties;
-  geometry: MultiPolygon;
+  geometry: Polygon;
 }
 
 export interface ZoneProperties {
