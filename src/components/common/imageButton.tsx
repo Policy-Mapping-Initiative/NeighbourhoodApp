@@ -3,6 +3,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import { SubwayPolicyState } from '../../models/enums';
 import { MouseEvent } from 'react';
+import { Tooltip } from '@mui/material';
 
 const StyledButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
@@ -18,10 +19,7 @@ const StyledButton = styled(ButtonBase)(({ theme }) => ({
     },
     '& .MuiImageMarked-root': {
       opacity: 0,
-    },
-    '& .MuiTypography-root': {
-      border: '4px solid currentColor',
-    },
+    }
   },
   "& .MuiImageMarked-root.selected": {
     opacity: "0 !important"
@@ -64,13 +62,11 @@ const ImageBackdrop = styled('span')(({ theme }) => ({
   top: 0,
   bottom: 0,
   backgroundColor: theme.palette.common.black,
-  opacity: 0.4,
+  opacity: 0.6,
   transition: theme.transitions.create('opacity'),
 }));
 
 const ImageMarked = styled('span')(({ theme }) => ({
-  height: 3,
-  width: 18,
   backgroundColor: theme.palette.common.white,
   position: 'absolute',
   bottom: -2,
@@ -83,6 +79,7 @@ interface ImageButtonProps {
   sourceUrl: string,
   width: string
   selected?: boolean
+  tooltipText?: string,
   onClick(): void
 }
 
@@ -99,7 +96,7 @@ export default function ImageButton(props: ImageButtonProps) {
   }
 
 
-  return (
+  let button = (
     <StyledButton
       // focusRipple
       key={props.title}
@@ -133,4 +130,16 @@ export default function ImageButton(props: ImageButtonProps) {
     </StyledButton>
 
   );
+
+  // If we have text for a tooltip, wrap a tooltip around it. 
+  if (props.tooltipText) {
+    return (
+      <Tooltip title={props.tooltipText}>
+        {button}
+      </Tooltip>
+    )
+  }
+  else {
+    return button;
+  }
 }

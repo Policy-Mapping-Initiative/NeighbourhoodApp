@@ -11,11 +11,33 @@ import SubwayPolicyScreen from "./policy-screens/subwayPolicyScreen";
 export default function PolicyModal() {
     const isOpen = useAppSelector(isPolicyModalOpen);
     const activeStep = useAppSelector(displayedPolicy);
+    const steps = 2;  
+
 
     const dispatch = useAppDispatch();
     const closeModal = () => dispatch(closePolicyModal());
     const handleNext = () => dispatch(incrementDisplayedPolicy())
     const handleBack = () => dispatch(decrementDisplayedPolicy())
+
+
+    // Will ensure that on the last policy we display a "Finish" button 
+    // instead of next
+    const renderRightHandButton = () => {
+      if (activeStep < (steps - 1)) {
+        return (                
+          <Button size="small" onClick={handleNext}>
+            Next
+          <KeyboardArrowRight />
+          </Button>
+        );
+      }
+      // Implicit Else: We are at the last step
+      return (
+          <Button size="small" onClick={closeModal}>
+            Finish
+          </Button>
+      )
+    }
 
     const renderActiveStep = () => {
       switch (activeStep) {
@@ -46,16 +68,11 @@ export default function PolicyModal() {
             {renderActiveStep()}
             <MobileStepper
               variant="dots"
-              steps={2}
+              steps={steps}
               position="static"
               activeStep={activeStep}
               sx={{ maxWidth: 400, flexGrow: 1 }}
-              nextButton={
-                <Button size="small" onClick={handleNext} disabled={activeStep === 1}>
-                  Next
-                  <KeyboardArrowRight />
-                </Button>
-              }
+              nextButton={renderRightHandButton()}
               backButton={
                 <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
                   <KeyboardArrowLeft />

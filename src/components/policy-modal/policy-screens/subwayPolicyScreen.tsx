@@ -1,9 +1,10 @@
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Tooltip, Button } from "@mui/material";
 import { SubwayPolicyState } from "../../../models/enums";
 import { setSubwayPolicy } from "../../../reducers/policySlice";
 import { subwayPolicy } from "../../../selectors";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import ImageButton from "../../common/imageButton";
+import "./subwayPolicyScreen.css"
 
 
 
@@ -24,7 +25,7 @@ export default function SubwayPolicyScreen() {
     return (
         <div>
             <Typography id="policy-modal-description" sx={{ mt: 2 }}>
-              What kind of development should be permitted as-of-right within 500m of a subway station? 
+              What kind of development should be permitted with out any special permission within 500m of a subway station? 
             </Typography>
             <Box>
                 <ImageButton 
@@ -33,6 +34,7 @@ export default function SubwayPolicyScreen() {
                   title="Low Density"
                   selected = {currentPolicy === SubwayPolicyState.LOW_DENSITY}
                   onClick = {updateSubwayPolicy(SubwayPolicyState.LOW_DENSITY)}
+                  tooltipText = "Roughly 2000-4000 persons per sq. km"
                 />
                 <ImageButton 
                   sourceUrl="https://upload.wikimedia.org/wikipedia/commons/3/3d/Condo_Towers_Bayview_Village.jpg"
@@ -40,8 +42,17 @@ export default function SubwayPolicyScreen() {
                   title="High Density"
                   selected = {currentPolicy === SubwayPolicyState.HIGH_DENSITY}
                   onClick = {updateSubwayPolicy(SubwayPolicyState.HIGH_DENSITY)}
+                  tooltipText = "Roughly 15000-20000 persons per sq. km"
                 />
             </Box>
+            <div id = "no-preference-button-div">
+              <Button 
+                href="#text-buttons" 
+                onClick = {updateSubwayPolicy(SubwayPolicyState.NOT_SET)}
+              >
+                No Preference
+              </Button>
+            </div>
         </div>    
     );
   }
