@@ -1,4 +1,4 @@
-import { Typography, Box, Tooltip, Button } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
 import { SubwayPolicyState } from "../../../models/enums";
 import { setSubwayPolicy } from "../../../reducers/policySlice";
 import { subwayPolicy } from "../../../selectors";
