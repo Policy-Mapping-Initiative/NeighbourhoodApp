@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { Submit } from '../buttons/submit';
 import { useAppSelector } from '../../store';
 import { getNeighbourhoods, getZones, getNeighbourhoodMapping } from '../../selectors';
-import { NeighbourhoodOverlay, ZoneOverlay } from './popup';
+import { NeighbourhoodOverlay, ZoneOverlay } from './overlays';
 
 export interface MapProps {
   setZone: Dispatch<SetStateAction<string>>;
