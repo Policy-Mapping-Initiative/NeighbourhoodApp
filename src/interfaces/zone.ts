@@ -1,5 +1,5 @@
-import { MultiPolygon } from 'geojson';
 import { LandUse, ZoneType } from '../models/enums';
+import { Polygon } from 'geojson';
 
 export interface IZoneCollection {
   type: string;
@@ -9,7 +9,7 @@ export interface IZoneCollection {
 export interface IZone {
   type: string;
   properties: ZoneProperties;
-  geometry: MultiPolygon;
+  geometry: Polygon;
 }
 
 export interface ZoneProperties {
