@@ -13,7 +13,6 @@ import { perc2color } from '../../utils';
 import { Dispatch, useState, SetStateAction } from 'react';
 import { IZone } from '../../interfaces/zone';
 import { ZoneType } from '../../models/enums';
-import { ZoneCollection } from '../../models/zoneCollection';
 
 export function NeighbourhoodOverlay(feat: INeighbourhood, neighbourhoodIdSetter: Dispatch<SetStateAction<string>>) {
   const [value, setValue] = useState('single');
@@ -91,7 +90,6 @@ export function NeighbourhoodOverlay(feat: INeighbourhood, neighbourhoodIdSetter
 
 export function ZoneOverlay(feat: IZone) {
   const id = feat.properties.id;
-
 
   const getColour = () : string => {
     switch (feat.properties.type) {
