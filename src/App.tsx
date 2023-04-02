@@ -7,7 +7,8 @@ import { fetchNeighbourhoodData } from './reducers/neighbourhoodSlice';
 import { fetchZoneData } from './reducers/zoneSlice';
 import { CircularProgress } from '@mui/material';
 import './App.css';
-import { isNeighbourhoodInitComplete, isZoneInitComplete } from './selectors';
+import { isNeighbourhoodInitComplete, isPolicyModalOpen, isZoneInitComplete } from './selectors';
+import PolicyModal from './components/policy-modal/policyModal';
 
 const Main = styled('div')({});
 
@@ -16,6 +17,8 @@ export function App() {
   const isZoneLoad = useAppSelector(isZoneInitComplete);
   const isNeighbourhoodLoad = useAppSelector(isNeighbourhoodInitComplete);
   const isLoading = !isNeighbourhoodLoad && !isZoneLoad;
+  const renderPolicyModal = useAppSelector(isPolicyModalOpen);
+  console.log(`Render Policy Modal ${renderPolicyModal}`)
 
   useEffectOnce(() => {
     dispatch(fetchNeighbourhoodData());
@@ -24,6 +27,7 @@ export function App() {
   useEffectOnce(() => {
     dispatch(fetchZoneData());
   });
+
 
   if (isLoading) {
     return (
@@ -36,6 +40,7 @@ export function App() {
   return (
     <Main>
       <TopAppBar />
+      {renderPolicyModal ? <PolicyModal/> : null}
       <Map />
     </Main>
   );
