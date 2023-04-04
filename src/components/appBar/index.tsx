@@ -4,12 +4,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import BasicMenu from './menu';
 import SearchBar from './searchBar';
-import { appBarStyle } from '../../styles';
 
 export function TopAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={appBarStyle}>
+      <AppBar position="static">
         <Toolbar>
           <BasicMenu />
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>

@@ -6,7 +6,7 @@ import { zoneSlice } from './zoneSlice';
 export const rootReducer = combineReducers({
   neighbourhoods: neighbourSlice.reducer,
   zones: zoneSlice.reducer,
-  policy: policySlice.reducer
+  policy: policySlice.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

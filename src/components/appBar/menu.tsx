@@ -10,7 +10,6 @@ export default function BasicMenu() {
   const open = Boolean(anchorEl);
   const dispatch = useAppDispatch();
 
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -18,7 +17,7 @@ export default function BasicMenu() {
   const handleMenuClick = () => {
     dispatch(openPolicyModal());
     handleClose();
-  }
+  };
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -29,7 +28,6 @@ export default function BasicMenu() {
   return (
     <div>
       <IconButton
-        id="basic-button"
         size="large"
         edge="start"
         color="inherit"
@@ -42,16 +40,16 @@ export default function BasicMenu() {
       >
         <MenuIcon />
       </IconButton>
-      <Menu 
-        id = "top-left-menu"
-        open = {open} 
-        onClose = {handleClose}
-        anchorEl = {anchorEl}
-        MenuListProps = {{
+      <Menu
+        id="top-left-menu"
+        open={open}
+        onClose={handleClose}
+        anchorEl={anchorEl}
+        MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick = {handleMenuClick}>City Wide Policies</MenuItem>
+        <MenuItem onClick={handleMenuClick}>City Wide Policies</MenuItem>
       </Menu>
     </div>
   );

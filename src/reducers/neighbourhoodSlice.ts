@@ -47,12 +47,12 @@ export const neighbourSlice = createSlice({
     },
     updateSearchValue(state, action: PayloadAction<string>) {
       state.searchValue = action.payload;
-    }
+    },
   },
   extraReducers: builder => {
     builder.addCase(fetchNeighbourhoodData.fulfilled, (state, action: PayloadAction<INeighbourhoodCollection>) => {
       state.data = action.payload;
-      if (action.payload.features){
+      if (action.payload.features) {
         for (const elem of action.payload.features) {
           const key = elem.properties.name;
           if (!Object.keys(state.neighbourhoodLocations).includes(key)) {
@@ -62,7 +62,7 @@ export const neighbourSlice = createSlice({
             state.neighbourhoodLocations[key] = value;
           }
         }
-      }     
+      }
       state.initialisationComplete = true;
     });
   },

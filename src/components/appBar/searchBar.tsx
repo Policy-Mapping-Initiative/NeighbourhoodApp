@@ -1,7 +1,7 @@
 import SearchIcon from '@mui/icons-material/Search';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useAppDispatch, useAppSelector } from '../../store';
-import { Search, SearchIconWrapper, StyledInputBase } from '../../styles';
+import { Search, SearchIconWrapper, StyledInputBase } from './styledComponent';
 import { SyntheticEvent } from 'react';
 import { getNeighbourhoodLocs } from '../../selectors';
 import { updateSearchValue } from '../../reducers/neighbourhoodSlice';
