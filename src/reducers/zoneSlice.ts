@@ -4,11 +4,11 @@ import { IZoneCollection, IZone } from '../interfaces/zone';
 
 type zoneMapping = {
   [key: string]: IZone;
-}
+};
 
 type neighbourhoodMapping = {
   [key: string]: string[];
-}
+};
 
 interface ZoneState {
   data: zoneMapping;
@@ -29,23 +29,21 @@ export const fetchZoneData = createAsyncThunk('fetch/zones', async () => {
 export const zoneSlice = createSlice({
   name: 'zoneData',
   initialState: initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchZoneData.fulfilled, (state, action) => {
-      if (action.payload.features){
-        for (const zone of action.payload.features){
+      if (action.payload.features) {
+        for (const zone of action.payload.features) {
           let temp = state.neighbourMap[zone.properties.neighbourhoodId];
-          if (temp){
+          if (temp) {
             temp.push(zone.properties.id.toString());
-          }
-          else {
+          } else {
             temp = [zone.properties.id.toString()];
           }
           state.neighbourMap[zone.properties.neighbourhoodId] = temp;
           state.data[zone.properties.id] = zone;
+        }
       }
-    }
       state.initialisationComplete = true;
     });
   },

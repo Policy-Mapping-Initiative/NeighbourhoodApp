@@ -89,23 +89,23 @@ export function NeighbourhoodOverlay(feat: INeighbourhood, neighbourhoodIdSetter
 }
 
 export function ZoneOverlay(feat: IZone) {
-  const getColour = () : string => {
+  const getColour = (): string => {
     switch (feat.properties.type) {
       case ZoneType.RESIDENTIAL_LOW:
       case ZoneType.RESIDENTIAL:
-        return "yellow";    
+        return 'yellow';
       case ZoneType.RESIDENTIAL_MID_HIGH:
-        return "goldenrod"  
+        return 'goldenrod';
       case ZoneType.OPEN_SPACE:
-        return "forestgreen";
+        return 'forestgreen';
       case ZoneType.MIXED_USE:
-        return "mediumblue";
+        return 'mediumblue';
       case ZoneType.COMMERCIAL:
-        return "goldenrod"
-      default: 
-        return "rebeccapurple"
+        return 'goldenrod';
+      default:
+        return 'rebeccapurple';
     }
-  }
+  };
 
   const onMouseEvent = (event: L.LeafletMouseEvent, type: string) => {
     switch (type) {
