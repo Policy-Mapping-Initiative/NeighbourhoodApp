@@ -14,23 +14,22 @@ const StyledButton = styled(ButtonBase)(({ theme }) => ({
   },
   '&:hover, &.Mui-focusVisible': {
     zIndex: 1,
-    '& .MuiImageBackdrop-root' : {
+    '& .MuiImageBackdrop-root': {
       opacity: 0.15,
     },
     '& .MuiImageMarked-root': {
       opacity: 0,
-    }
+    },
   },
-  "& .MuiImageMarked-root.selected": {
-    opacity: "0 !important"
+  '& .MuiImageMarked-root.selected': {
+    opacity: '0 !important',
   },
-  "& .MuiImageBackdrop-root.selected": {
-    opacity: "0.15 !important"
+  '& .MuiImageBackdrop-root.selected': {
+    opacity: '0.15 !important',
   },
-  "& .MuiTypography-root.selected": {
-    border: '4px solid currentColor'
+  '& .MuiTypography-root.selected': {
+    border: '4px solid currentColor',
   },
-
 }));
 
 const ImageSrc = styled('span')({
@@ -75,26 +74,23 @@ const ImageMarked = styled('span')(({ theme }) => ({
 }));
 
 interface ImageButtonProps {
-  title: string, 
-  sourceUrl: string,
-  width: string
-  selected?: boolean
-  tooltipText?: string,
-  onClick(): void
+  title: string;
+  sourceUrl: string;
+  width: string;
+  selected?: boolean;
+  tooltipText?: string;
+  onClick(): void;
 }
-
-
 
 export default function ImageButton(props: ImageButtonProps) {
   console.log(`${props.title} Selected  ? ${props.selected}`);
-  
+
   // const preserveHighlighting = (event: TransitionEvent) : void => {
   //   console.log("Here");
   //   if (props.selected === true) {
   //     event.preventDefault();
-  //   } 
+  //   }
   // }
-
 
   let button = (
     <StyledButton
@@ -103,43 +99,35 @@ export default function ImageButton(props: ImageButtonProps) {
       style={{
         width: props.width,
       }}
-      onClick = {props.onClick}
-      className = {props.selected ? "selected" : "not-selected"}
+      onClick={props.onClick}
+      className={props.selected ? 'selected' : 'not-selected'}
     >
       <ImageSrc style={{ backgroundImage: `url(${props.sourceUrl})` }} />
-      <ImageBackdrop className={`MuiImageBackdrop-root ${props.selected ? "selected" : "not-selected"}`} />
+      <ImageBackdrop className={`MuiImageBackdrop-root ${props.selected ? 'selected' : 'not-selected'}`} />
       <Image>
         <Typography
           component="span"
           variant="subtitle1"
           color="inherit"
-          className = {props.selected ? "selected" : "not-selected"}
+          className={props.selected ? 'selected' : 'not-selected'}
           sx={{
             position: 'relative',
             p: 4,
             pt: 2,
-            pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+            pb: theme => `calc(${theme.spacing(1)} + 6px)`,
           }}
         >
           {props.title}
-          <ImageMarked 
-            className= {`MuiImageMarked-root ${props.selected ? "selected" : "not-selected"}`}
-          />
+          <ImageMarked className={`MuiImageMarked-root ${props.selected ? 'selected' : 'not-selected'}`} />
         </Typography>
       </Image>
     </StyledButton>
-
   );
 
-  // If we have text for a tooltip, wrap a tooltip around it. 
+  // If we have text for a tooltip, wrap a tooltip around it.
   if (props.tooltipText) {
-    return (
-      <Tooltip title={props.tooltipText}>
-        {button}
-      </Tooltip>
-    )
-  }
-  else {
+    return <Tooltip title={props.tooltipText}>{button}</Tooltip>;
+  } else {
     return button;
   }
 }

@@ -18,7 +18,7 @@ export function App() {
   const isNeighbourhoodLoad = useAppSelector(isNeighbourhoodInitComplete);
   const isLoading = !isNeighbourhoodLoad && !isZoneLoad;
   const renderPolicyModal = useAppSelector(isPolicyModalOpen);
-  console.log(`Render Policy Modal ${renderPolicyModal}`)
+  console.log(`Render Policy Modal ${renderPolicyModal}`);
 
   useEffectOnce(() => {
     dispatch(fetchNeighbourhoodData());
@@ -27,7 +27,6 @@ export function App() {
   useEffectOnce(() => {
     dispatch(fetchZoneData());
   });
-
 
   if (isLoading) {
     return (
@@ -40,7 +39,7 @@ export function App() {
   return (
     <Main>
       <TopAppBar />
-      {renderPolicyModal ? <PolicyModal/> : null}
+      {renderPolicyModal ? <PolicyModal /> : null}
       <Map />
     </Main>
   );
