@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchZippedJsonFile } from '../utils';
-import { INeighbourhoodCollection } from '../interfaces/neigbourhood';
+import { INeighbourhoodCollection, INeighbourhood } from '../interfaces/neigbourhood';
 import L from 'leaflet';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
@@ -9,27 +9,37 @@ interface updateZone {
   newZoning: string;
 }
 
-export interface neighbourhoodLoc {
-  [key: string]: [number, number];
+interface MappedNeighbourhood {
+  [key: number]: INeighbourhood;
+}
+
+interface nameToId {
+  [key: string]: number;
+}
+
+export interface neighbourhoodCenter {
+  [key: number]: [number, number];
 }
 
 interface NeighbourhoodState {
-  data: INeighbourhoodCollection | null;
+  data: MappedNeighbourhood;
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
   userSetZoning: Array<updateZone>;
-  neighbourhoodLocations: neighbourhoodLoc;
-  searchValue: string;
-  initialisationComplete: boolean;
+  neighbourhoodCenters: neighbourhoodCenter;
+  nameMap: nameToId;
+  selectedId: number;
 }
 
 const initialState = {
-  data: null,
+  data: {},
+  status: 'idle',
   userSetZoning: [],
-  neighbourhoodLocations: {},
-  searchValue: '',
-  initialisationComplete: false,
+  neighbourhoodCenters: {},
+  nameMap: {},
+  selectedId: 0,
 } as NeighbourhoodState;
 
-export const fetchNeighbourhoodData = createAsyncThunk('fetch/neighbourhoods', async () => {
+export const fetchNeighbourhoodData = createAsyncThunk('neighbourhood/getData', async () => {
   return await fetchZippedJsonFile<INeighbourhoodCollection>('neighbourhoods.zip');
 });
 
@@ -37,6 +47,12 @@ export const neighbourSlice = createSlice({
   name: 'neighbourhood',
   initialState: initialState,
   reducers: {
+    addNeighbourhoodLocation(state, action: PayloadAction<INeighbourhood>) {
+      const coords = action.payload.geometry.coordinates[0] as L.LatLngTuple[];
+      const temp = L.polygon(coords).getBounds().getCenter();
+      const value: [number, number] = [temp.lng, temp.lat];
+      state.neighbourhoodCenters[action.payload.properties.id] = value;
+    },
     updateUserSetZoning(state, action: PayloadAction<{ neighbourhoodId: string; newZoning: string }>) {
       const temp = {
         neighbourhoodId: action.payload.neighbourhoodId,
@@ -45,27 +61,30 @@ export const neighbourSlice = createSlice({
       state.userSetZoning = state.userSetZoning.filter(item => item.neighbourhoodId !== temp.neighbourhoodId);
       state.userSetZoning.push(temp);
     },
-    updateSearchValue(state, action: PayloadAction<string>) {
-      state.searchValue = action.payload;
+    updateSelectedId(state, action: PayloadAction<number>) {
+      state.selectedId = action.payload;
     },
   },
   extraReducers: builder => {
+    builder.addCase(fetchNeighbourhoodData.pending, state => {
+      state.status = 'loading';
+    });
+    builder.addCase(fetchNeighbourhoodData.rejected, state => {
+      state.status = 'failed';
+    });
     builder.addCase(fetchNeighbourhoodData.fulfilled, (state, action: PayloadAction<INeighbourhoodCollection>) => {
-      state.data = action.payload;
-      if (action.payload.features) {
-        for (const elem of action.payload.features) {
-          const key = elem.properties.name;
-          if (!Object.keys(state.neighbourhoodLocations).includes(key)) {
-            const coords = elem.geometry.coordinates[0] as L.LatLngTuple[];
-            const temp = L.polygon(coords).getBounds().getCenter();
-            const value: [number, number] = [temp.lng, temp.lat];
-            state.neighbourhoodLocations[key] = value;
-          }
+      const temp = action.payload;
+      if (temp.features) {
+        for (const neighbourhood of temp.features) {
+          state.data[neighbourhood.properties.id] = neighbourhood;
+          state.nameMap[neighbourhood.properties.name] = neighbourhood.properties.id;
         }
+        state.status = 'succeeded';
+      } else {
+        state.status = 'failed';
       }
-      state.initialisationComplete = true;
     });
   },
 });
 
-export const { updateUserSetZoning, updateSearchValue } = neighbourSlice.actions;
+export const { addNeighbourhoodLocation, updateUserSetZoning, updateSelectedId } = neighbourSlice.actions;

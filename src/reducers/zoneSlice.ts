@@ -2,49 +2,51 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchZippedJsonFile } from '../utils';
 import { IZoneCollection, IZone } from '../interfaces/zone';
 
-type zoneMapping = {
-  [key: string]: IZone;
-};
-
 type neighbourhoodMapping = {
-  [key: string]: string[];
+  [key: number]: number[];
 };
 
 interface ZoneState {
-  data: zoneMapping;
+  data: IZone[];
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
   neighbourMap: neighbourhoodMapping;
-  initialisationComplete: boolean;
 }
 
 const initialState = {
-  initialisationComplete: false,
+  status: 'idle',
   neighbourMap: {},
   data: {},
 } as ZoneState;
 
-export const fetchZoneData = createAsyncThunk('fetch/zones', async () => {
+export const fetchZoneData = createAsyncThunk('zone/getData', async () => {
   return await fetchZippedJsonFile<IZoneCollection>('zones.zip');
 });
 
 export const zoneSlice = createSlice({
-  name: 'zoneData',
+  name: 'zone',
   initialState: initialState,
   reducers: {},
   extraReducers: builder => {
+    builder.addCase(fetchZoneData.pending, state => {
+      state.status = 'loading';
+    });
+    builder.addCase(fetchZoneData.rejected, state => {
+      state.status = 'failed';
+    });
     builder.addCase(fetchZoneData.fulfilled, (state, action) => {
       if (action.payload.features) {
+        state.data = action.payload.features;
         for (const zone of action.payload.features) {
           let temp = state.neighbourMap[zone.properties.neighbourhoodId];
           if (temp) {
-            temp.push(zone.properties.id.toString());
+            temp.push(zone.properties.id);
           } else {
-            temp = [zone.properties.id.toString()];
+            temp = [zone.properties.id];
           }
           state.neighbourMap[zone.properties.neighbourhoodId] = temp;
-          state.data[zone.properties.id] = zone;
         }
+        state.status = 'succeeded';
       }
-      state.initialisationComplete = true;
     });
   },
 });
