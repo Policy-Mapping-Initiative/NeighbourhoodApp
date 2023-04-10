@@ -1,29 +1,24 @@
 import { Map } from './components/map';
 import { TopAppBar } from './components/appBar';
 import { styled } from '@mui/material/styles';
-import { useEffectOnce, useLocalStorage } from 'usehooks-ts';
-import { useEffect } from 'react';
+import { useEffectOnce } from 'usehooks-ts';
 import { useAppDispatch, useAppSelector } from './store';
 import { fetchNeighbourhoodData } from './reducers/neighbourhoodSlice';
 import { fetchZoneData } from './reducers/zoneSlice';
 import { fetchSupplementalData } from './reducers/supplementSlice';
 import { CircularProgress } from '@mui/material';
 import './App.css';
-import { isNeighbourhoodInitComplete, isZoneInitComplete, isSupplementInitComplete } from './selectors';
+import { isNeighbourhoodInitComplete, isPolicyModalOpen, isZoneInitComplete } from './selectors';
+import PolicyModal from './components/policy-modal/policyModal';
 
 const Main = styled('div')({});
 
 export function App() {
-  const [searchText, setSearchText] = useLocalStorage('searchText', '');
   const dispatch = useAppDispatch();
   const isZoneLoad = useAppSelector(isZoneInitComplete);
   const isNeighbourhoodLoad = useAppSelector(isNeighbourhoodInitComplete);
-  const isSupplementLoad = useAppSelector(isSupplementInitComplete);
-  const isLoading = !isNeighbourhoodLoad && !isZoneLoad && !isSupplementLoad;
-
-  useEffect(() => {
-    console.log(searchText, '- Has changed');
-  }, [searchText]);
+  const isLoading = !isNeighbourhoodLoad && !isZoneLoad;
+  const renderPolicyModal = useAppSelector(isPolicyModalOpen);
 
   useEffectOnce(() => {
     dispatch(fetchNeighbourhoodData());
@@ -47,7 +42,8 @@ export function App() {
 
   return (
     <Main>
-      <TopAppBar setSearchBar={setSearchText} />
+      <TopAppBar />
+      {renderPolicyModal ? <PolicyModal /> : null}
       <Map />
     </Main>
   );

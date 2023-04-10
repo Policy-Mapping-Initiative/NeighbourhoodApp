@@ -17,12 +17,11 @@ export enum ZoneType {
   OTHER = 'NOT_CATEGORISED',
 }
 
-export enum Colour {
-  YELLOW = '#ffff66',
-  DARK_YELLOW = '#ffc40c',
-  GREEN = '#90ee90',
-  DARK_GREEN = '#006400',
-  TEAL = '#008080',
-  BLUE = '#4169e1',
-  BLACK = '#fffff',
+// TODO: More advanced model would mean more choices.
+// Depending on other questions asked this enum might be used as a
+// super set containing all policy answers of this type.
+export enum SubwayPolicyState {
+  NOT_SET,
+  LOW_DENSITY,
+  HIGH_DENSITY,
 }
