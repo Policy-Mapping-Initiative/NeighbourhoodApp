@@ -3,17 +3,18 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { Search, SearchIconWrapper, StyledInputBase } from './styledComponent';
 import { SyntheticEvent } from 'react';
-import { getNeighbourhoodLocs } from '../../selectors';
-import { updateSearchValue } from '../../reducers/neighbourhoodSlice';
+import { getNeighbourhoods, getNameMap } from '../../selectors';
+import { updateSelectedId } from '../../reducers/neighbourhoodSlice';
 
 export default function SearchBar() {
   const dispatch = useAppDispatch();
-  const neighbourhoodLocs = useAppSelector(getNeighbourhoodLocs);
-  const neighbourhoods = Object.keys(neighbourhoodLocs);
+  const neighbourhoods = useAppSelector(getNeighbourhoods);
+  const nameToId = useAppSelector(getNameMap);
+  const neighbourhoodNames = Object.values(neighbourhoods).map(elem => elem.properties.name);
 
   function onChange(event: SyntheticEvent<Element, Event>) {
     if (event.target instanceof HTMLElement) {
-      dispatch(updateSearchValue(event.target.innerText));
+      dispatch(updateSelectedId(nameToId[event.target.innerText]));
     }
   }
 
@@ -24,7 +25,7 @@ export default function SearchBar() {
       </SearchIconWrapper>
       <Autocomplete
         id="search-bar-input"
-        options={neighbourhoods}
+        options={neighbourhoodNames}
         sx={{ width: 300 }}
         renderInput={params => (
           <StyledInputBase {...params} ref={params.InputProps.ref} placeholder="Search Neighborhoods..." />

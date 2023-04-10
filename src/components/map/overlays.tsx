@@ -8,15 +8,15 @@ import { Popup, LayerGroup, GeoJSON } from 'react-leaflet';
 import { Typography, Divider } from '@mui/material';
 import { INeighbourhood } from '../../interfaces/neigbourhood';
 import { useAppDispatch } from '../../store';
-import { updateUserSetZoning } from '../../reducers/neighbourhoodSlice';
+import { updateUserSetZoning, updateSelectedId } from '../../reducers/neighbourhoodSlice';
 import { perc2color } from '../../utils';
-import { Dispatch, useState, SetStateAction } from 'react';
+import { useState } from 'react';
 import { IZone } from '../../interfaces/zone';
 import { ZoneType } from '../../models/enums';
 
-export function NeighbourhoodOverlay(feat: INeighbourhood, neighbourhoodIdSetter: Dispatch<SetStateAction<string>>) {
+export function NeighbourhoodOverlay(feat: INeighbourhood) {
   const [value, setValue] = useState('single');
-  const neighId = feat.properties.id.toString();
+  const neighId = feat.properties.id;
   const dispatch = useAppDispatch();
 
   const onChange = (event: SelectChangeEvent) => {
@@ -34,7 +34,7 @@ export function NeighbourhoodOverlay(feat: INeighbourhood, neighbourhoodIdSetter
         event.target.setStyle({ fillOpacity: 0.2 });
         break;
       case 'click':
-        neighbourhoodIdSetter(neighId);
+        dispatch(updateSelectedId(neighId));
         break;
       default:
         break;
