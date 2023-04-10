@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from './store';
 import { fetchNeighbourhoodData } from './reducers/neighbourhoodSlice';
 import { fetchZoneData } from './reducers/zoneSlice';
 import { CircularProgress } from '@mui/material';
-import './App.css';
 import {
   getNeighbourhoodState,
   isPolicyModalOpen,
