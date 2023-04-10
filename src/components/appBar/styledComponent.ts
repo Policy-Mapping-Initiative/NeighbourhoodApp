@@ -1,43 +1,6 @@
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 
-const COLOR_SCHEME = {
-  color1: '#4E5166',
-  color2: '#7C90A0',
-  color3: '#B5AA9D',
-  color4: '#B9B7A7',
-  color5: '#747274',
-};
-
-export const appBarStyle = {
-  backgroundColor: COLOR_SCHEME.color1,
-};
-
-export const modalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
-export function dynamicButtonStyleGen(width: number, height: number) {
-  return {
-    zIndex: 1000,
-    position: 'absolute',
-    top: height - 300,
-    left: width - 200,
-    backgroundColor: COLOR_SCHEME.color1,
-    '&:hover': {
-      backgroundColor: COLOR_SCHEME.color5,
-    },
-  };
-}
-
 export const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,

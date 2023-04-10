@@ -28,7 +28,6 @@ export default function BasicMenu() {
   return (
     <div>
       <IconButton
-        id="basic-button"
         size="large"
         edge="start"
         color="inherit"

@@ -1,10 +1,9 @@
 import { Typography, Box, Button } from '@mui/material';
-import { SubwayPolicyState } from '../../../models/enums';
-import { setSubwayPolicy } from '../../../reducers/policySlice';
-import { subwayPolicy } from '../../../selectors';
-import { useAppDispatch, useAppSelector } from '../../../store';
-import ImageButton from '../../common/imageButton';
-import './subwayPolicyScreen.css';
+import { SubwayPolicyState } from '../../models/enums';
+import { setSubwayPolicy } from '../../reducers/policySlice';
+import { subwayPolicy } from '../../selectors';
+import { useAppDispatch, useAppSelector } from '../../store';
+import ImageButton from '../common/imageButton';
 
 export default function SubwayPolicyScreen() {
   const dispatch = useAppDispatch();
@@ -42,11 +41,11 @@ export default function SubwayPolicyScreen() {
           tooltipText="Roughly 15000-20000 persons per sq. km"
         />
       </Box>
-      <div id="no-preference-button-div">
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <Button href="#text-buttons" onClick={updateSubwayPolicy(SubwayPolicyState.NOT_SET)}>
           No Preference
         </Button>
-      </div>
+      </Box>
     </div>
   );
 }
