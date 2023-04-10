@@ -1,7 +1,7 @@
 import L from 'leaflet';
 import { MapContainer, ZoomControl, useMap, TileLayer } from 'react-leaflet';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Submit } from '../buttons/submit';
+import { Submit } from '../submit';
 import { useAppSelector } from '../../store';
 import { getNeighbourhoods, getZones, getNeighbourhoodCenters, getSelectedId } from '../../selectors';
 import { NeighbourhoodOverlay, ZoneOverlay } from './overlays';
