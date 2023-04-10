@@ -3,12 +3,12 @@ import { fetchZippedJsonFile } from '../utils';
 import { ITTC } from '../interfaces/ttc';
 
 interface SupplementState {
-  data: ITTC | null;
+  ttcData: ITTC | null;
   initialisationComplete: boolean;
 }
 
 const initialState = {
-  data: null,
+  ttcData: null,
   initialisationComplete: false,
 } as SupplementState;
 
@@ -23,7 +23,7 @@ export const supplementSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(fetchSupplementalData.fulfilled, (state, action) => {
-      state.data = action.payload;
+      state.ttcData = action.payload;
       state.initialisationComplete = true;
     });
   },

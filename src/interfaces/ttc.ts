@@ -5,18 +5,20 @@ export interface ITTC {
   generator: string;
   copyright: string;
   timestamp: string;
-  features?: FeaturesEntity[] | null;
+  features?: Station[];
 }
 
-export interface FeaturesEntity {
+export interface Station {
   type: string;
-  properties: Properties;
+  properties: StationProperties;
   geometry: Point;
   id: string;
 }
 
-export interface Properties {
+export interface StationProperties {
   name: string;
-  wikidata?: string | null;
-  wikipedia?: string | null;
+  zonesWithin300M: number[]
+  zonesWithin500M: number[]
+  zonesWithin800M: number[]
+  zonesWithin1000M: number[]
 }

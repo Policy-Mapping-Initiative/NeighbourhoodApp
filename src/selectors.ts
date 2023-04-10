@@ -13,7 +13,7 @@ export const getZones = (state: RootState) => state.zones.data;
 
 // TTC
 export const isSupplementInitComplete = (state: RootState) => state.supplement.initialisationComplete;
-export const getTTCData = (state: RootState) => state.supplement.data;
+export const getTTCData = (state: RootState) => state.supplement.ttcData;
 
 // Policies
 export const isPolicyModalOpen = (state: RootState) => state.policy.isModalOpen;
