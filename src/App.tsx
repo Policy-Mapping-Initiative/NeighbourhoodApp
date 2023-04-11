@@ -5,11 +5,11 @@ import { useEffectOnce } from 'usehooks-ts';
 import { useAppDispatch, useAppSelector } from './store';
 import { fetchNeighbourhoodData } from './reducers/neighbourhoodSlice';
 import { fetchZoneData } from './reducers/zoneSlice';
-import { fetchSupplementalData } from './reducers/supplementSlice';
 import { CircularProgress } from '@mui/material';
 import './App.css';
 import { isNeighbourhoodInitComplete, isPolicyModalOpen, isZoneInitComplete } from './selectors';
 import PolicyModal from './components/policy-modal/policyModal';
+import { fetchIntersectData, fetchStationData } from './reducers/ttcSlice';
 
 const Main = styled('div')({});
 
@@ -29,8 +29,12 @@ export function App() {
   });
 
   useEffectOnce(() => {
-    dispatch(fetchSupplementalData());
+    dispatch(fetchStationData());
   });
+
+  useEffectOnce(() => {
+    dispatch(fetchIntersectData());
+  })
 
   if (isLoading) {
     return (

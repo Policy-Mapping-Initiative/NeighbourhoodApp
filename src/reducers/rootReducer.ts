@@ -1,13 +1,14 @@
 import { combineReducers } from 'redux';
 import { neighbourSlice } from './neighbourhoodSlice';
 import { policySlice } from './policySlice';
+import { ttcSlice } from './ttcSlice';
 import { zoneSlice } from './zoneSlice';
-import { supplementSlice } from './supplementSlice';
+
 
 export const rootReducer = combineReducers({
   neighbourhoods: neighbourSlice.reducer,
   zones: zoneSlice.reducer,
-  supplement: supplementSlice.reducer,
+  ttc: ttcSlice.reducer,
   policy: policySlice.reducer
 });
 

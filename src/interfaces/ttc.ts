@@ -1,10 +1,7 @@
 import { Point } from 'geojson';
 
-export interface ITTC {
+export interface StationSet{
   type: string;
-  generator: string;
-  copyright: string;
-  timestamp: string;
   features?: Station[];
 }
 
@@ -17,8 +14,11 @@ export interface Station {
 
 export interface StationProperties {
   name: string;
-  zonesWithin300M: number[]
-  zonesWithin500M: number[]
-  zonesWithin800M: number[]
-  zonesWithin1000M: number[]
+}
+
+export interface IntersectSet {
+  "300m": {[key: number]: number},
+  "500m": {[key: number]: number},
+  "800m": {[key: number]: number},
+  "1000m": {[key: number]: number}
 }
