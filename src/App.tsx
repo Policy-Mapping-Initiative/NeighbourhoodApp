@@ -53,7 +53,7 @@ export function App() {
     return (
       <Main>
         <ThemeProvider theme={appTheme}>
-          <CircularProgress id="initial-loader" />
+          <CircularProgress disableShrink sx={{ position: 'absolute', left: '50%', top: '50%' }} />
         </ThemeProvider>
       </Main>
     );
