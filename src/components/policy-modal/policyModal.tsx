@@ -1,10 +1,10 @@
-import { Box, Button, MobileStepper, Modal, Typography } from '@mui/material';
+import { Button, MobileStepper, Modal, Typography } from '@mui/material';
 import { displayedPolicy, isPolicyModalOpen } from '../../selectors';
 import { closePolicyModal, incrementDisplayedPolicy, decrementDisplayedPolicy } from '../../reducers/policySlice';
 import { useAppDispatch, useAppSelector } from '../../store';
-import './policyModal.css';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
-import SubwayPolicyScreen from './policy-screens/subwayPolicyScreen';
+import SubwayPolicyScreen from './subwayPolicyScreen';
+import { ModalBox } from '../common/modal';
 
 export default function PolicyModal() {
   const isOpen = useAppSelector(isPolicyModalOpen);
@@ -57,7 +57,7 @@ export default function PolicyModal() {
         aria-describedby="modal-modal-description"
         id="policy-modal"
       >
-        <Box id="policy-modal-box">
+        <ModalBox>
           <Typography id="policy-modal-title" variant="h6" component="h2">
             Select Citywide Policies
           </Typography>
@@ -76,7 +76,7 @@ export default function PolicyModal() {
               </Button>
             }
           />
-        </Box>
+        </ModalBox>
       </Modal>
     </div>
   );

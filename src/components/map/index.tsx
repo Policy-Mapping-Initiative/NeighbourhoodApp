@@ -1,16 +1,11 @@
 import L from 'leaflet';
 import { MapContainer, ZoomControl, useMap, TileLayer } from 'react-leaflet';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Submit } from '../buttons/submit';
+import { Submit } from '../submit';
 import { useAppSelector } from '../../store';
-import {
-  getNeighbourhoods,
-  getZones,
-  getNeighbourhoodMapping,
-  getNeighbourhoodLocs,
-  getSearchValue,
-} from '../../selectors';
+import { getNeighbourhoods, getZones, getNeighbourhoodCenters, getSelectedId } from '../../selectors';
 import { NeighbourhoodOverlay, ZoneOverlay } from './overlays';
+import { IZone } from '../../interfaces/zone';
 
 export interface MapProps {
   setZone: Dispatch<SetStateAction<string>>;
@@ -23,23 +18,14 @@ interface changeViewProps {
 }
 
 export function Map() {
-  const [neighbourhoodId, setNeighbourhoodId] = useState('');
   const [center, setCenter] = useState([43.6529, -79.3849] as L.LatLngExpression);
   const [zoom, setZoom] = useState(12);
-  const neighbourhoodLocs = useAppSelector(getNeighbourhoodLocs);
-  const searchVal = useAppSelector(getSearchValue);
-  const neighbours = useAppSelector(getNeighbourhoods);
-  const neighMap = useAppSelector(getNeighbourhoodMapping);
-  const zones = useAppSelector(getZones);
+  const [selectedZones, setSelectedZones] = useState([] as IZone[]);
 
-  // TODO: add steps to wait for the SerializableStateInvariantMiddleware
-  let selectedZones = [];
-  if (neighbourhoodId !== '' && Object.keys(neighMap).length > 0) {
-    const zoneIds = neighMap[neighbourhoodId];
-    for (let i = 0; i < zoneIds.length; i++) {
-      selectedZones.push(zones[zoneIds[i]]);
-    }
-  }
+  const neighbourhoodCenters = useAppSelector(getNeighbourhoodCenters);
+  const selectedId = useAppSelector(getSelectedId);
+  const neighbours = useAppSelector(getNeighbourhoods);
+  const zones = useAppSelector(getZones);
 
   function ChangeView(props: changeViewProps) {
     const map = useMap();
@@ -48,16 +34,17 @@ export function Map() {
   }
 
   useEffect(() => {
-    if (Object.keys(neighbourhoodLocs).includes(searchVal)) {
-      const temp = neighbourhoodLocs[searchVal] as L.LatLngExpression;
-      setCenter(temp);
+    const temp = neighbourhoodCenters[selectedId];
+    if (temp) {
+      setCenter(temp as L.LatLngExpression);
       setZoom(13.5);
-    } else {
-      const temp = [43.6529, -79.3849] as L.LatLngExpression;
-      setCenter(temp);
-      setZoom(12);
     }
-  }, [searchVal, neighbourhoodLocs]);
+  }, [neighbourhoodCenters, selectedId]);
+
+  useEffect(() => {
+    const temp = zones.filter(elem => elem.properties.neighbourhoodId === selectedId);
+    setSelectedZones(temp);
+  }, [zones, selectedId]);
 
   return (
     <MapContainer center={center} zoom={zoom} zoomControl={false} style={{ width: '100%', height: '100%' }}>
@@ -67,7 +54,7 @@ export function Map() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <Submit />
-      {neighbours && neighbours.features?.map(elem => NeighbourhoodOverlay(elem, setNeighbourhoodId))}
+      {neighbours && Object.values(neighbours).map(elem => NeighbourhoodOverlay(elem))}
       {selectedZones.length > 0 && selectedZones.map(elem => ZoneOverlay(elem))}
       <ZoomControl position="topright" />
     </MapContainer>
