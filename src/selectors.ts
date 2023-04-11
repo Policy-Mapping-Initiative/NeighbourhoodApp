@@ -16,4 +16,8 @@ export const isPolicyModalOpen = (state: RootState) => state.policy.isModalOpen;
 export const displayedPolicy = (state: RootState) => state.policy.displayedPolicy;
 export const subwayPolicy = (state: RootState) => state.policy.subwayPolicy;
 
+// Results
+export const isResultsScreenOpen = (state: RootState) => state.results.isScreenOpen;
+export const populationResult = (state: RootState) => state.results.population;
+
 // Other Selectors Down Here, please keep it neat !
