@@ -11,12 +11,14 @@ import {
   getZoneState,
   getNeighbourhoodCenters,
   getNeighbourhoods,
+  getTTCState,
 } from './selectors';
 import PolicyModal from './components/policy-modal/policyModal';
 import { useEffect, useState } from 'react';
 import { addNeighbourhoodLocation } from './reducers/neighbourhoodSlice';
 import { INeighbourhood } from './interfaces/neigbourhood';
 import { appTheme } from './theme';
+import { fetchTTCData } from './reducers/ttcSlice';
 
 const Main = styled('div')({});
 
@@ -25,6 +27,7 @@ export function App() {
   const dispatch = useAppDispatch();
   const zoneState = useAppSelector(getZoneState);
   const neighbourhoodState = useAppSelector(getNeighbourhoodState);
+  const ttcState = useAppSelector(getTTCState);
   const centers = useAppSelector(getNeighbourhoodCenters);
   const neighbourhoods = useAppSelector(getNeighbourhoods);
   const renderPolicyModal = useAppSelector(isPolicyModalOpen);
@@ -38,16 +41,20 @@ export function App() {
       dispatch(fetchNeighbourhoodData());
     }
 
+    if (ttcState === 'idle') {
+      dispatch(fetchTTCData());
+    }
+
     if (neighbourhoodState === 'succeeded' && Object.keys(centers).length === 0) {
       Object.values(neighbourhoods).forEach(async value => {
         await dispatch(addNeighbourhoodLocation(value as INeighbourhood));
       });
     }
 
-    if (zoneState === 'succeeded' && neighbourhoodState === 'succeeded') {
+    if (zoneState === 'succeeded' && neighbourhoodState === 'succeeded' && ttcState === "succeeded") {
       setIsLoading(false);
     }
-  }, [dispatch, neighbourhoodState, zoneState, centers, neighbourhoods]);
+  }, [dispatch, neighbourhoodState, zoneState, ttcState, centers, neighbourhoods, ]);
 
   if (isLoading) {
     return (

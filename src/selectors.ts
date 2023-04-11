@@ -11,6 +11,12 @@ export const getSelectedId = (state: RootState) => state.neighbourhoods.selected
 export const getZoneState = (state: RootState) => state.zones.status;
 export const getZones = (state: RootState) => state.zones.data;
 
+// TTC
+export const getTTCState = (state: RootState) => state.ttc.status;
+export const getTTCStations = (state: RootState) => state.ttc.stations;
+export const getTTCIntersects = (state: RootState) => state.ttc.intersectSet;
+
+
 // Policies
 export const isPolicyModalOpen = (state: RootState) => state.policy.isModalOpen;
 export const displayedPolicy = (state: RootState) => state.policy.displayedPolicy;
