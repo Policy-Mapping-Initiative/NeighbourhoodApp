@@ -4,20 +4,30 @@ import { IntersectSet, StationSet } from '../interfaces/ttc';
 
 interface TTCState {
   stations: StationSet | null;
-  intersectSet: IntersectSet | null
+  intersectSet: IntersectSet | null;
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+}
+
+interface ITTCData {
+  stations: StationSet | null,
+  intersects: IntersectSet | null
 }
 
 const initialState = {
+  status: 'idle',
   stations: null,
+  
   intersectSet: null
 } as TTCState;
 
-export const fetchStationData = createAsyncThunk('fetch/ttc_stations', async () => {
-  return await fetchZippedJsonFile<StationSet>('ttc_stations.zip');
-});
+export const fetchTTCData = createAsyncThunk('fetch/ttc_intersects', async () => {
+  let data : ITTCData = {stations: null, intersects: null};
+  
+  data.stations = await fetchZippedJsonFile<StationSet>('ttc_stations.zip');
+  data.intersects = await fetchZippedJsonFile<IntersectSet>('ttc_intersects.zip');
 
-export const fetchIntersectData = createAsyncThunk('fetch/ttc_intersects', async () => {
-  return await fetchZippedJsonFile<IntersectSet>('ttc_intersects.zip');
+  return data;
+
 });
 
 export const ttcSlice = createSlice({
@@ -25,12 +35,17 @@ export const ttcSlice = createSlice({
   initialState: initialState,
   reducers: {
   },
-  extraReducers: builder => {
-    builder.addCase(fetchStationData.fulfilled, (state, action) => {
-      state.stations = action.payload;
+  extraReducers: builder => { builder
+    .addCase(fetchTTCData.pending, state => {
+      state.status = 'loading';
     })
-    .addCase(fetchIntersectData.fulfilled, (state, action) => {
-      state.intersectSet = action.payload
+    .addCase(fetchTTCData.rejected, state => {
+      state.status = 'failed';
+    })
+    .addCase(fetchTTCData.fulfilled, (state, action) => {
+      state.intersectSet = action.payload.intersects;
+      state.stations = action.payload.stations
+      state.status = 'succeeded';
     });
   },
 });
