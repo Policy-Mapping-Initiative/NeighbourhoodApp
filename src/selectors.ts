@@ -23,7 +23,8 @@ export const displayedPolicy = (state: RootState) => state.policy.displayedPolic
 export const subwayPolicy = (state: RootState) => state.policy.subwayPolicy;
 
 // Results
-export const isResultsScreenOpen = (state: RootState) => state.results.isScreenOpen;
+export const isResultsScreenOpen = (state: RootState) => state.results.isOpen
 export const populationResult = (state: RootState) => state.results.population;
+export const resultsCalculationState = (state: RootState) => state.results.calculationState;
 
 // Other Selectors Down Here, please keep it neat !

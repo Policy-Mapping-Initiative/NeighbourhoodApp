@@ -1,29 +1,43 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface ResultsState {
   population: number
-  isScreenOpen: boolean
+  isOpen: boolean
+  calculationState: 'unstarted' | 'calculating' | 'finished'
 }
 
 const initialState = {
   population: 5000000,  // Dummy value for now
-  isScreenOpen: false
+  isOpen: false,
+  calculationState: 'unstarted' 
 } as ResultsState;
 
 export const resultsSlice = createSlice({
   name: 'results',
   initialState: initialState,
   reducers: {
-    openResultScreen(state) {
-      state.isScreenOpen = true;
+    openResultsScreen(state) {
+      state.isOpen = true
     },
-    closeResultScreen(state) {
-      state.isScreenOpen = false;
+    startCalculations(state) {
+      state.calculationState = 'calculating'
+    },
+    finishCalculations(state) {
+      state.calculationState = 'finished'
+    },
+    closeResultsScreen(state) {
+      state.isOpen = false
+      state.calculationState = 'unstarted'  // NOTE: We might cache results if we can tell no changes have been made but... that will be done in business logic, not here
+    },
+    setPopulation(state, action: PayloadAction<{population: number}>) {
+      state.population = action.payload.population;
     }
   }
 });
 
 export const {
-    openResultScreen,
-    closeResultScreen
+    openResultsScreen,
+    closeResultsScreen,
+    startCalculations,
+    finishCalculations
 } = resultsSlice.actions;
