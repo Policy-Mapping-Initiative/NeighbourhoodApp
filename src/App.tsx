@@ -14,6 +14,7 @@ import {
   getTTCState,
 } from './selectors';
 import PolicyModal from './components/policy-modal/policyModal';
+import { IntroModal } from './components/introduction'
 import { useEffect, useState } from 'react';
 import { addNeighbourhoodLocation } from './reducers/neighbourhoodSlice';
 import { INeighbourhood } from './interfaces/neigbourhood';
@@ -70,6 +71,7 @@ export function App() {
     <Main>
       <ThemeProvider theme={appTheme}>
         <TopAppBar />
+        <IntroModal />
         {renderPolicyModal ? <PolicyModal /> : null}
         <Map />
       </ThemeProvider>
