@@ -19,3 +19,8 @@ export interface ZoneProperties {
   type: ZoneType;
   neighbourhoodId: number;
 }
+
+export interface AreaDelta {
+  zoneId: number,
+  delta: number
+}

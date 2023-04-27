@@ -4,7 +4,8 @@ import { useAppDispatch, useAppSelector } from '../../store';
 
 
 import { ModalBox } from '../common/modal';
-import { closeResultsScreen } from '../../reducers/resultsSlice';
+import { closeResultsScreen, startCalculations } from '../../reducers/resultsSlice';
+import calculateResults from '../../utils/calculationHelpers';
 
 
 function renderModalBody(calculationState: 'unstarted' | 'calculating' | 'finished', projectedPopulation: number) {
@@ -25,18 +26,22 @@ function renderModalBody(calculationState: 'unstarted' | 'calculating' | 'finish
 
 
 export default function ResultsModal() {
-  const modalState = useAppSelector(isResultsScreenOpen);
+  const isOpen = useAppSelector(isResultsScreenOpen);
   const calculationState = useAppSelector(resultsCalculationState);
   const projectedPopulation = useAppSelector(populationResult);
   const dispatch = useAppDispatch();
   const closeModal = () => dispatch(closeResultsScreen());
 
   //  If calculating... dispatch once the task to _do_ the calculations on the backend 
+  if (isOpen && calculationState !== "finished") {
+    dispatch(startCalculations());
+    calculateResults();
+  }
 
   return (
     <div>
       <Modal
-        open={modalState}
+        open={isOpen}
         onClose={closeModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"

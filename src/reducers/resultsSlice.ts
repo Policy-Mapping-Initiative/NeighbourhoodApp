@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import CalculationConstants from '../utils/calculationConstants';
 
 interface ResultsState {
   population: number
@@ -7,7 +8,7 @@ interface ResultsState {
 }
 
 const initialState = {
-  population: 5000000,  // Dummy value for now
+  population: CalculationConstants.TORONTO_POPULATION,
   isOpen: false,
   calculationState: 'unstarted' 
 } as ResultsState;
@@ -29,8 +30,8 @@ export const resultsSlice = createSlice({
       state.isOpen = false
       state.calculationState = 'unstarted'  // NOTE: We might cache results if we can tell no changes have been made but... that will be done in business logic, not here
     },
-    setPopulation(state, action: PayloadAction<{population: number}>) {
-      state.population = action.payload.population;
+    setPopulation(state, action: PayloadAction<number>) {
+      state.population = action.payload;
     }
   }
 });
@@ -39,5 +40,6 @@ export const {
     openResultsScreen,
     closeResultsScreen,
     startCalculations,
-    finishCalculations
+    finishCalculations,
+    setPopulation
 } = resultsSlice.actions;

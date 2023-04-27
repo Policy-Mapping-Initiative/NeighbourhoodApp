@@ -3,6 +3,7 @@ import { RootState } from './reducers/rootReducer';
 // Neighbourhoods
 export const getNeighbourhoodState = (state: RootState) => state.neighbourhoods.status;
 export const getNeighbourhoods = (state: RootState) => state.neighbourhoods.data;
+export const getUserSetZoning = (state: RootState) => state.neighbourhoods.userSetZoning;
 export const getNeighbourhoodCenters = (state: RootState) => state.neighbourhoods.neighbourhoodCenters;
 export const getNameMap = (state: RootState) => state.neighbourhoods.nameMap;
 export const getSelectedId = (state: RootState) => state.neighbourhoods.selectedId;

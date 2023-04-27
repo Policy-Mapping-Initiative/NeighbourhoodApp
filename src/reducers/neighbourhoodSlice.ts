@@ -9,10 +9,6 @@ interface updateZone {
   newZoning: string;
 }
 
-interface MappedNeighbourhood {
-  [key: number]: INeighbourhood;
-}
-
 interface nameToId {
   [key: string]: number;
 }
@@ -22,7 +18,7 @@ export interface neighbourhoodCenter {
 }
 
 interface NeighbourhoodState {
-  data: MappedNeighbourhood;
+  data: INeighbourhood[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   userSetZoning: Array<updateZone>;
   neighbourhoodCenters: neighbourhoodCenter;
@@ -31,7 +27,7 @@ interface NeighbourhoodState {
 }
 
 const initialState = {
-  data: {},
+  data: [],
   status: 'idle',
   userSetZoning: [],
   neighbourhoodCenters: {},
@@ -76,7 +72,7 @@ export const neighbourSlice = createSlice({
       const temp = action.payload;
       if (temp.features) {
         for (const neighbourhood of temp.features) {
-          state.data[neighbourhood.properties.id] = neighbourhood;
+          state.data.push(neighbourhood);
           state.nameMap[neighbourhood.properties.name] = neighbourhood.properties.id;
         }
         state.status = 'succeeded';
