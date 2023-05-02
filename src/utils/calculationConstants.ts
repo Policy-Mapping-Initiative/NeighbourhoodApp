@@ -8,12 +8,12 @@ export default class CalculationConstants {
     static POPULATION_DENSITY_ASSUMPTIONS_BY_ZONE : {[key: string] : number} = {
         [ZoneType.RESIDENTIAL_LOW]: 3000,
         [ZoneType.RESIDENTIAL]: 7000,
-        [ZoneType.RESIDENTIAL_MID_HIGH]: 25000,
-        [ZoneType.MIXED_USE]: 15000
+        [ZoneType.RESIDENTIAL_MID_HIGH]: 17000,
+        [ZoneType.MIXED_USE]: 12000
     };
 
     static POPULATION_DENSITY_ASSUMPTIONS_BY_SUBWAY_POLICY : {[key: string] : number} = {
         [SubwayPolicyState.LOW_DENSITY]: 3000,
-        [SubwayPolicyState.HIGH_DENSITY]: 20000
+        [SubwayPolicyState.HIGH_DENSITY]: 21000
     };
 }

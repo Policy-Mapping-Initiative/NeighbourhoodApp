@@ -1,16 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SubwayPolicyState } from '../models/enums';
+import { PolicyDecisionSet } from '../interfaces/policy';
 
 interface PolicyState {
   isModalOpen: boolean;
   displayedPolicy: number;
-  subwayPolicy: SubwayPolicyState;
+  policyDecisions: PolicyDecisionSet
+}
+
+const DEFAULT_POLICY_DECISIONS : PolicyDecisionSet = {
+  subwayPolicy: SubwayPolicyState.NOT_SET
 }
 
 const initialState = {
   isModalOpen: false,
   displayedPolicy: 0,
-  subwayPolicy: SubwayPolicyState.NOT_SET,
+  policyDecisions: DEFAULT_POLICY_DECISIONS
 } as PolicyState;
 
 export const policySlice = createSlice({
@@ -34,7 +39,7 @@ export const policySlice = createSlice({
       }
     },
     setSubwayPolicy(state, action: PayloadAction<{ newPolicy: SubwayPolicyState }>) {
-      state.subwayPolicy = action.payload.newPolicy;
+      state.policyDecisions.subwayPolicy = action.payload.newPolicy;
     },
   },
 });

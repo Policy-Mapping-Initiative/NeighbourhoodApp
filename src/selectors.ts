@@ -16,12 +16,14 @@ export const getZones = (state: RootState) => state.zones.data;
 export const getTTCState = (state: RootState) => state.ttc.status;
 export const getTTCStations = (state: RootState) => state.ttc.stations;
 export const getTTCIntersects = (state: RootState) => state.ttc.intersectSet;
+export const getTTCIntersects800m = (state: RootState) => state.ttc.intersectSet?.['800m'];
 
 
 // Policies
 export const isPolicyModalOpen = (state: RootState) => state.policy.isModalOpen;
 export const displayedPolicy = (state: RootState) => state.policy.displayedPolicy;
-export const subwayPolicy = (state: RootState) => state.policy.subwayPolicy;
+export const subwayPolicy = (state: RootState) => state.policy.policyDecisions.subwayPolicy;
+export const getPolicyDecisions = (state: RootState) => state.policy.policyDecisions;
 
 // Results
 export const isResultsScreenOpen = (state: RootState) => state.results.isOpen
