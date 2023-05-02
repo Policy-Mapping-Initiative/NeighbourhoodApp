@@ -110,7 +110,6 @@ function calculateResults(state: ICalculateResultsEvent) {
 }
 
 onmessage = (event: MessageEvent) => {
-    console.log("I'm here")
     let state = event.data as ICalculateResultsEvent;
     calculateResults(state);
 
