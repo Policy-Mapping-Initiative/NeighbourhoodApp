@@ -94,7 +94,6 @@ function handleSpotZoning(neighbourhoodDeltas: Array<number>, state: ICalculateR
  * about population loss etc. 
  */
 function calculateResults(state: ICalculateResultsEvent) {
-    console.log("I'm here Two");
     let neighbourhoodDeltas = new Array<number>(state.neighbourhoods.length).fill(0);
 
     neighbourhoodDeltas = handlePolicies(neighbourhoodDeltas, state);
