@@ -1,8 +1,5 @@
-import { Modal, Typography } from '@mui/material';
-import { CheckCircle } from '@mui/icons-material';
-import { useState } from 'react';
+import { Typography } from '@mui/material';
 import { SubmitButton } from './styledComponent';
-import { ModalBox } from '../common/modal';
 import { useAppDispatch } from '../../store';
 import { openResultsScreen } from '../../reducers/resultsSlice';
 
