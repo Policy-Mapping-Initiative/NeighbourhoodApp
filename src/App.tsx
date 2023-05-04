@@ -49,7 +49,7 @@ export function App() {
     }
 
     if (neighbourhoodState === 'succeeded' && Object.keys(centers).length === 0) {
-      Object.values(neighbourhoods).forEach(async value => {
+      neighbourhoods.forEach(async value => {
         await dispatch(addNeighbourhoodLocation(value as INeighbourhood));
       });
     }
