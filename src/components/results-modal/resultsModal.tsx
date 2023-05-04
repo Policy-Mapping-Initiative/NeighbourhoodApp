@@ -47,6 +47,8 @@ export default function ResultsModal() {
   const policyDecisions = useAppSelector(getPolicyDecisions);
   const dispatch = useAppDispatch();
 
+
+  console.log(isOpen);
   //  If calculating... dispatch once the task to _do_ the calculations on the backend 
   // We can assume the browser works with webworkers
   let calculationWorker : Worker = useMemo(
@@ -54,11 +56,9 @@ export default function ResultsModal() {
   );
 
   const closeModalFn = () => {
-    console.log("Close modal");
     calculationWorker.terminate();
-    dispatch(closeResultsScreen);
+    dispatch(closeResultsScreen())
   };
-  
   useEffect(() => {
     calculationWorker.onmessage = (event: MessageEvent) => {
       console.log("Handling the end")
@@ -75,13 +75,13 @@ export default function ResultsModal() {
     calculationWorker.onerror = (error: ErrorEvent) => {
       calculationWorker.terminate();
       console.error(error);
-      dispatch(setCalculationErrorState)
+      dispatch(setCalculationErrorState())
     }
   }, [calculationWorker, dispatch])
 
   useEffect(() => {
     if (isOpen && calculationState === "unstarted") {
-      dispatch(startCalculations);
+      dispatch(startCalculations());
       // FIX-ME: Get alternatives with only the _need to know data_
       const currentState : ICalculateResultsEvent = {
         neighbourhoods: neighbourhoods,

@@ -73,7 +73,7 @@ export function App() {
     <Main>
       <ThemeProvider theme={appTheme}>
         <TopAppBar />
-        {renderPolicyModal ? <PolicyModal /> : null}
+        {renderPolicyModal ? <PolicyModal/> : null}
         {renderResultsModal ? <ResultsModal/> : null}
         <Map />
       </ThemeProvider>
