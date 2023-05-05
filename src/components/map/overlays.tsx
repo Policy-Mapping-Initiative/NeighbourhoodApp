@@ -10,23 +10,27 @@ import { INeighbourhood } from '../../interfaces/neigbourhood';
 import { useAppDispatch } from '../../store';
 import { updateUserSetZoning, updateSelectedId } from '../../reducers/neighbourhoodSlice';
 import { perc2color } from '../../utils';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { IZone } from '../../interfaces/zone';
 import { ZoneType } from '../../models/enums';
 import { useAppSelector } from '../../store';
-import { getNeighbourhoodCenters } from '../../selectors';
+import { getNeighbourhoodCenters, getSelectedId } from '../../selectors';
 
 export function NeighbourhoodOverlay(feat: INeighbourhood) {
   const [value, setValue] = useState('single');
+  // const [isOpen, setIsOpen] = useState(false);
   const neighId = feat.properties.id;
   const dispatch = useAppDispatch();
-  const edge = useAppSelector(getNeighbourhoodCenters)[neighId];
+  const location = useAppSelector(getNeighbourhoodCenters)[neighId];
+  const selectedId = useAppSelector(getSelectedId);
   const name = feat.properties.name;
   const id = feat.properties.id;
   const percentSfh = (feat.properties.singleFamilyCount / feat.properties.residenceCount) * 100;
   const percentSfhStr = percentSfh.toPrecision(4);
   const color = perc2color(percentSfh);
   const density = feat.properties.density.toPrecision(5);
+  // const markerRef = useRef<L.Marker>(null);
+  // const popRef = useRef<L.Popup>(null);
 
   const onChange = (event: SelectChangeEvent) => {
     const temp = { neighbourhoodId: event.target.name, newZoning: event.target.value };
@@ -44,16 +48,24 @@ export function NeighbourhoodOverlay(feat: INeighbourhood) {
         break;
       case 'click':
         dispatch(updateSelectedId(neighId));
+        setIsOpen(true);
         break;
       default:
         break;
     }
   };
 
-  // TODO: make marker smaller, show only when clicked/searched, show one at a time
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     markerRef.current?.fire('click', null, true);
+  //     markerRef.current?.openPopup();
+  //   }
+  // }, [isOpen]);
+
+  // TODO: make marker smaller
   function CreateMarker() {
     return (
-    <Marker position={edge}>
+    <Marker position={location}>
       <Popup>
         <Typography variant="subtitle2">Neighbourhood: {name}</Typography>
         <Divider />
@@ -93,7 +105,7 @@ export function NeighbourhoodOverlay(feat: INeighbourhood) {
           click: (event: L.LeafletMouseEvent) => onMouseEvent(event, 'click'),
         }}
       >
-        <CreateMarker />
+        {selectedId === neighId ? <CreateMarker /> : null}
       </GeoJSON>
     </LayerGroup>
   );
