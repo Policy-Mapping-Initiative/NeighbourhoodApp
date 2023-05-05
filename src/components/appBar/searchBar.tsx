@@ -10,7 +10,7 @@ export default function SearchBar() {
   const dispatch = useAppDispatch();
   const neighbourhoods = useAppSelector(getNeighbourhoods);
   const nameToId = useAppSelector(getNameMap);
-  const neighbourhoodNames = Object.values(neighbourhoods).map(elem => elem.properties.name);
+  const neighbourhoodNames = neighbourhoods.map(elem => elem.properties.name);
 
   function onChange(event: SyntheticEvent<Element, Event>) {
     if (event.target instanceof HTMLElement) {

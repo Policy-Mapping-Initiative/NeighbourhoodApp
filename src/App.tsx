@@ -1,4 +1,4 @@
-import { Map } from './components/map';
+import { Map } from './components/map/map';
 import { TopAppBar } from './components/appBar';
 import { ThemeProvider, styled } from '@mui/material/styles';
 import { useAppDispatch, useAppSelector } from './store';
@@ -12,14 +12,16 @@ import {
   getNeighbourhoodCenters,
   getNeighbourhoods,
   getTTCState,
+  isResultsScreenOpen
 } from './selectors';
 import PolicyModal from './components/policy-modal/policyModal';
-import { IntroModal } from './components/introduction'
+// import { IntroModal } from './components/introduction'
 import { useEffect, useState } from 'react';
 import { addNeighbourhoodLocation } from './reducers/neighbourhoodSlice';
 import { INeighbourhood } from './interfaces/neigbourhood';
 import { appTheme } from './theme';
 import { fetchTTCData } from './reducers/ttcSlice';
+import ResultsModal from './components/results-modal/resultsModal';
 
 const Main = styled('div')({});
 
@@ -32,6 +34,7 @@ export function App() {
   const centers = useAppSelector(getNeighbourhoodCenters);
   const neighbourhoods = useAppSelector(getNeighbourhoods);
   const renderPolicyModal = useAppSelector(isPolicyModalOpen);
+  const renderResultsModal = useAppSelector(isResultsScreenOpen);
 
   useEffect(() => {
     if (zoneState === 'idle') {
@@ -47,7 +50,7 @@ export function App() {
     }
 
     if (neighbourhoodState === 'succeeded' && Object.keys(centers).length === 0) {
-      Object.values(neighbourhoods).forEach(async value => {
+      neighbourhoods.forEach(async value => {
         await dispatch(addNeighbourhoodLocation(value as INeighbourhood));
       });
     }
@@ -71,8 +74,8 @@ export function App() {
     <Main>
       <ThemeProvider theme={appTheme}>
         <TopAppBar />
-        <IntroModal />
-        {renderPolicyModal ? <PolicyModal /> : null}
+        {renderPolicyModal ? <PolicyModal/> : null}
+        {renderResultsModal ? <ResultsModal/> : null}
         <Map />
       </ThemeProvider>
     </Main>

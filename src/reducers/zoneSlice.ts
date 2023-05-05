@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchZippedJsonFile } from '../utils';
-import { IZoneCollection, IZone } from '../interfaces/zone';
+import { IZoneCollection, IZone, AreaDelta } from '../interfaces/zone';
 
 type neighbourhoodMapping = {
   [key: number]: number[];
@@ -11,6 +11,7 @@ interface ZoneState {
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   neighbourMap: neighbourhoodMapping;
 }
+
 
 const initialState = {
   status: 'idle',
@@ -25,7 +26,13 @@ export const fetchZoneData = createAsyncThunk('zone/getData', async () => {
 export const zoneSlice = createSlice({
   name: 'zone',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    updateZoneArea(state, action: PayloadAction<AreaDelta>) {
+      const areaDelta = action.payload;
+      // If it's negative (it almost always will be), this will reduce the area under later consideration
+      state.data[areaDelta.zoneId].properties.area += areaDelta.delta;  
+    }
+  },
   extraReducers: builder => {
     builder.addCase(fetchZoneData.pending, state => {
       state.status = 'loading';
@@ -50,3 +57,7 @@ export const zoneSlice = createSlice({
     });
   },
 });
+
+export const {
+  updateZoneArea
+} = zoneSlice.actions;
