@@ -10,7 +10,7 @@ import { INeighbourhood } from '../../interfaces/neigbourhood';
 import { useAppDispatch } from '../../store';
 import { updateUserSetZoning, updateSelectedId } from '../../reducers/neighbourhoodSlice';
 import { perc2color } from '../../utils';
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { IZone } from '../../interfaces/zone';
 import { ZoneType } from '../../models/enums';
 import { useAppSelector } from '../../store';
@@ -48,7 +48,7 @@ export function NeighbourhoodOverlay(feat: INeighbourhood) {
         break;
       case 'click':
         dispatch(updateSelectedId(neighId));
-        setIsOpen(true);
+        // setIsOpen(true);
         break;
       default:
         break;
