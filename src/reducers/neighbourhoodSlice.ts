@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchZippedJsonFile } from '../utils';
 import { INeighbourhoodCollection, INeighbourhood } from '../interfaces/neigbourhood';
-import L from 'leaflet';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import polylabel from 'polylabel';
 
 interface updateZone {
   neighbourhoodId: string;
@@ -44,10 +44,8 @@ export const neighbourSlice = createSlice({
   initialState: initialState,
   reducers: {
     addNeighbourhoodLocation(state, action: PayloadAction<INeighbourhood>) {
-      const coords = action.payload.geometry.coordinates[0] as L.LatLngTuple[];
-      const temp = L.polygon(coords).getBounds().getCenter();
-      const value: [number, number] = [temp.lng, temp.lat];
-      state.neighbourhoodCenters[action.payload.properties.id] = value;
+      const value = polylabel(action.payload.geometry.coordinates, 1.0) as [number, number];
+      state.neighbourhoodCenters[action.payload.properties.id] = [value[1], value[0]];
     },
     updateUserSetZoning(state, action: PayloadAction<{ neighbourhoodId: string; newZoning: string }>) {
       const temp = {
