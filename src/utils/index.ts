@@ -65,3 +65,14 @@ export function median(values: number[]): number {
 
   return (values[half - 1] + values[half]) / 2.0;
 }
+
+/**
+ * Make string into human friendly format
+ */
+export function humanize(str: string): string {
+  const temp = str.split('_');
+  for (var i = 0; i < temp.length; i++) {
+    temp[i] = temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLocaleLowerCase();
+  }
+  return temp.join(' ');
+}
