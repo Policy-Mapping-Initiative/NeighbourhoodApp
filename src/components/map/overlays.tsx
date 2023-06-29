@@ -9,7 +9,7 @@ import { Typography, Divider } from '@mui/material';
 import { INeighbourhood } from '../../interfaces/neigbourhood';
 import { useAppDispatch } from '../../store';
 import { updateUserSetZoning, updateSelectedId } from '../../reducers/neighbourhoodSlice';
-import { perc2color } from '../../utils';
+import { perc2color, humanize } from '../../utils';
 import { useState } from 'react';
 import { IZone } from '../../interfaces/zone';
 import { ZoneType } from '../../models/enums';
@@ -17,8 +17,8 @@ import { useAppSelector } from '../../store';
 import { getNeighbourhoodCenters, getSelectedId } from '../../selectors';
 
 export function NeighbourhoodOverlay(feat: INeighbourhood) {
-  const [value, setValue] = useState('single');
-  // const [isOpen, setIsOpen] = useState(false);
+  let zoneOptions = [ZoneType.RESIDENTIAL, ZoneType.RESIDENTIAL_LOW, ZoneType.RESIDENTIAL_MID_HIGH, ZoneType.MIXED_USE];
+  const [value, setValue] = useState(ZoneType.RESIDENTIAL_LOW);
   const neighId = feat.properties.id;
   const dispatch = useAppDispatch();
   const location = useAppSelector(getNeighbourhoodCenters)[neighId];
@@ -35,7 +35,8 @@ export function NeighbourhoodOverlay(feat: INeighbourhood) {
   const onChange = (event: SelectChangeEvent) => {
     const temp = { neighbourhoodId: event.target.name, newZoning: event.target.value };
     dispatch(updateUserSetZoning(temp));
-    setValue(event.target.value);
+    type key = keyof typeof ZoneType;
+    setValue(ZoneType[event.target.value as key]);
   };
 
   const onMouseEvent = (event: L.LeafletMouseEvent, type: string) => {
@@ -62,6 +63,10 @@ export function NeighbourhoodOverlay(feat: INeighbourhood) {
   //   }
   // }, [isOpen]);
 
+  function createItemList(option: ZoneType){
+    return <MenuItem value={option}>{humanize(option)}</MenuItem>
+  }
+
   // TODO: make marker smaller
   function CreateMarker() {
     return (
@@ -82,9 +87,7 @@ export function NeighbourhoodOverlay(feat: INeighbourhood) {
           <FormControl fullWidth>
             <InputLabel>Zone</InputLabel>
             <Select name={name} id={name} value={value} label="Zone" onChange={event => onChange(event)}>
-              <MenuItem value={'single'}>Single</MenuItem>
-              <MenuItem value={'double'}>Double</MenuItem>
-              <MenuItem value={'triple'}>Triple</MenuItem>
+              {zoneOptions.map((option) => createItemList(option))}
             </Select>
           </FormControl>
         </Box>
