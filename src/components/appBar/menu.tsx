@@ -1,4 +1,3 @@
-import * as React from 'react';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import IconButton from '@mui/material/IconButton';
 import { useAppDispatch } from '../../store';

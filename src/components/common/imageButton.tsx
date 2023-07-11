@@ -1,8 +1,6 @@
 import { styled } from '@mui/material/styles';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
-// import { SubwayPolicyState } from '../../models/enums';
-// import { MouseEvent } from 'react';
 import { Tooltip } from '@mui/material';
 
 const StyledButton = styled(ButtonBase)(({ theme }) => ({
@@ -84,13 +82,6 @@ interface ImageButtonProps {
 
 export default function ImageButton(props: ImageButtonProps) {
   console.log(`${props.title} Selected  ? ${props.selected}`);
-
-  // const preserveHighlighting = (event: TransitionEvent) : void => {
-  //   console.log("Here");
-  //   if (props.selected === true) {
-  //     event.preventDefault();
-  //   }
-  // }
 
   let button = (
     <StyledButton
