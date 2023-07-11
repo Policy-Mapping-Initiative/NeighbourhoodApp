@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '../../store';
 import { CalculationFinishedMessage, ICalculateResultsEvent } from '../../workers/calculationWorker';
 
 import { ModalBox } from '../common/modal';
+import Box from '@mui/material/Box';
 import { closeResultsScreen, startCalculations, setCalculationErrorState, finishCalculations } from '../../reducers/resultsSlice';
 import { useEffect, useMemo } from 'react';
 
@@ -32,7 +33,9 @@ function renderModalBody(calculationState: 'unstarted' | 'calculating' | 'finish
       )
     default: 
       return (
-        <CircularProgress disableShrink sx={{ position: 'absolute', left: '50%', top: '50%' }} />
+        <Box p={3}>
+            <CircularProgress disableShrink sx={{ position: 'absolute', left: '50%', top: '50%'}} />
+        </Box>
       )
   }  
 }
