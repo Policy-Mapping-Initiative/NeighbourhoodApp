@@ -29,8 +29,6 @@ export function NeighbourhoodOverlay(feat: INeighbourhood) {
   const percentSfhStr = percentSfh.toPrecision(4);
   const color = perc2color(percentSfh);
   const density = feat.properties.density.toPrecision(5);
-  // const markerRef = useRef<L.Marker>(null);
-  // const popRef = useRef<L.Popup>(null);
 
   const onChange = (event: SelectChangeEvent) => {
     const temp = { neighbourhoodId: event.target.name, newZoning: event.target.value };
@@ -55,13 +53,6 @@ export function NeighbourhoodOverlay(feat: INeighbourhood) {
         break;
     }
   };
-
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     markerRef.current?.fire('click', null, true);
-  //     markerRef.current?.openPopup();
-  //   }
-  // }, [isOpen]);
 
   function createItemList(option: ZoneType){
     return <MenuItem value={option}>{humanize(option)}</MenuItem>
