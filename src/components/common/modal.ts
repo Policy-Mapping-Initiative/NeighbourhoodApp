@@ -7,8 +7,13 @@ export const ModalBox = styled(Box)(({ theme }) => ({
   left: '50%',
   padding: theme.spacing(3, 4),
   transform: ['translate(-50%, -50%)'],
-  width: 400,
   backgroundColor: 'white',
   border: '2px solid #000',
   boxShadow: ['24px'],
+  [theme.breakpoints.up('sm')]: {
+    width: 400,
+  },
+  [theme.breakpoints.down('sm')]: {
+    width: '70%',
+  },
 }));

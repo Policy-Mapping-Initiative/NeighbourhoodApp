@@ -1,5 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
+// Keep this for reference
 // const COLOR_SCHEME = {
 //     color1: '#4E5166',
 //     color2: '#7C90A0',
